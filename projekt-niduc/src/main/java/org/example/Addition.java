@@ -1,7 +1,7 @@
 package org.example;
 
 public class Addition {
-    public static Signal multiplication (Signal first, Signal second){
+    public Signal addition (Signal first, Signal second){
         if(!first.type.equals("vector")){
             if(first.type.equals("decimal")){
                 //zmien decimal->vector
