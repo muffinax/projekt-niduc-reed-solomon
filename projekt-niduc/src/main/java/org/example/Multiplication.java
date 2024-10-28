@@ -15,7 +15,6 @@ public class Multiplication {
             }/*zmien vector->element*/vectorToElement(second);
         }
         return new Signal(
-                String.valueOf((Integer.parseInt(first.value) + Integer.parseInt(second.value)) % 31),
-                "element");
+                String.valueOf((Integer.parseInt(first.value.charAt(0)) + Integer.parseInt(second.value.charAt(0))) % 31), "element");
     }
 }
