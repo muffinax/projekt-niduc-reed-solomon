@@ -5,31 +5,33 @@ public class Addition {
         if(!first.type.equals("vector")){
             if(first.type.equals("decimal")){
                 //zmien decimal->vector
-            }else /*zmien element->vector*/;
+                decimalToVector(first);
+            }else /*zmien element->vector*/elementToVector(first);
         }
         if(!second.type.equals("vector")){
             if(second.type.equals("decimal")){
                 //zmien decimal->vector
-            }else /*zmien element->vector*/;
+                decimalToVector(second);
+            }else /*zmien element->vector*/elementToVector(second);
         }
         String a, b, c, d, e;
-        if(first.value[0] == second.value[0])
+        if(first.value.charAt(0) == second.value.charAt(0))
             e = "0";
         else 
             e = "1";
-        if(first.value[1] == second.value[1])
+        if(first.value.charAt(1) == second.value.charAt(1))
             d = "0";
         else 
             d = "1";
-        if(first.value[2] == second.value[2])
+        if(first.value.charAt(2) == second.value.charAt(2))
             c = "0";
         else 
             c = "1";
-        if(first.value[3] == second.value[3])
+        if(first.value.charAt(3) == second.value.charAt(3))
             b = "0";
         else 
             b = "1";
-        if(first.value[4] == second.value[4])
+        if(first.value.charAt(4) == second.value.charAt(4))
             a = "0";
         else 
             a = "1";
