@@ -1,4 +1,4 @@
-package main.java.org.example;
+package org.example;
 
 public class Addition {
     public static Signal multiplication (Signal first, Signal second){
