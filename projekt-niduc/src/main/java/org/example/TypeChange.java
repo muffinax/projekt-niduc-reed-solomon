@@ -1,15 +1,15 @@
 package org.example;
 
 public class TypeChange {
-    public static void binaryToDecimal(Signal signal){
+    public void vectorToDecimal(Signal signal){
         signal.value = String.valueOf(Integer.parseInt(signal.value,2));
         signal.type = "decimal";
     }
-    public static void decimalToBinary(Signal signal){
+    public void decimalToVector(Signal signal){
         signal.value = Integer.toBinaryString(Integer.parseInt(signal.value));
         signal.type = "vector";
     }
-    public static void vectorToElement(Signal signal){
+    public void vectorToElement(Signal signal){
         switch(signal.value){
             case "00001":
                 signal.value = "A0"; //A31
@@ -78,7 +78,7 @@ public class TypeChange {
         }
         signal.type = "element";
     }
-    public static void elementToVector(Signal signal){
+    public void elementToVector(Signal signal){
         switch(signal.value){
             case "0": //A32
                 signal.value = "00000"; 
