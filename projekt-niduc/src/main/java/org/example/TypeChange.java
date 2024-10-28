@@ -12,19 +12,19 @@ public class TypeChange {
     public void vectorToElement(Signal signal){
         switch(signal.value){
             case "00001":
-                signal.value = "A0"; //A31
+                signal.value = "A00"; //A31
             case "00010":
-                signal.value = "A1";
+                signal.value = "A01";
             case "00100":
-                signal.value = "A2";
+                signal.value = "A02";
             case "01000":
-                signal.value = "A3";
+                signal.value = "A03";
             case "10000":
-                signal.value = "A4";
+                signal.value = "A04";
             case "00011":
                 signal.value = "A18";
             case "00101":
-                signal.value = "A5";
+                signal.value = "A05";
             case "01001":
                 signal.value = "A29";
             case "10001":
@@ -32,7 +32,7 @@ public class TypeChange {
             case "11000":
                 signal.value = "A21";
             case "10100":
-                signal.value = "A7";
+                signal.value = "A07";
             case "10010":
                 signal.value = "A30";
             case "00110":
@@ -40,7 +40,7 @@ public class TypeChange {
             case "01100":
                 signal.value = "A20";
             case "01010":
-                signal.value = "A6";
+                signal.value = "A06";
             case "00111":
                 signal.value = "A11";
             case "01011":
@@ -50,7 +50,7 @@ public class TypeChange {
             case "11100":
                 signal.value = "A13";
             case "11010":
-                signal.value = "A9";
+                signal.value = "A09";
             case "01110":
                 signal.value = "A12";
             case "10110":
@@ -60,7 +60,7 @@ public class TypeChange {
             case "10101":
                 signal.value = "A22";
             case "01101":
-                signal.value = "A8";
+                signal.value = "A08";
             case "01111":
                 signal.value = "A23";
             case "10111":
@@ -82,25 +82,25 @@ public class TypeChange {
         switch(signal.value){
             case "0": //A32
                 signal.value = "00000"; 
-            case "A0": //A31
+            case "A00": //A31
                 signal.value = "00001";
-            case "A1":
+            case "A01":
                 signal.value = "00010";
-            case "A2":
+            case "A02":
                 signal.value = "00100";
-            case "A3":
+            case "A03":
                 signal.value = "01000";
-            case "A4":
+            case "A04":
                 signal.value = "10000";
-            case "A5":
+            case "A05":
                 signal.value = "00101";
-            case "A6":
+            case "A06":
                 signal.value = "01010";
-            case "A7":
+            case "A07":
                 signal.value = "10100";
-            case "A8":
+            case "A08":
                 signal.value = "01101";
-            case "A9":
+            case "A09":
                 signal.value = "11010";
             case "A10":
                 signal.value = "10001";

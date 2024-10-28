@@ -1,6 +1,6 @@
 package org.example;
 
-import java.io.IOError;
+import java.lang.IllegalArgumentException;
 
 public class Generator{
     //marta - obliczanie wielomianu generującgo - zrobię z tego osobną klasę
