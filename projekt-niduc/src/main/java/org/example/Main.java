@@ -13,6 +13,13 @@ public class Main {
         value= in.nextLine();
         Signal second = new Signal(value, "decimal");
 
+        Multiplication multi=new Multiplication();
+        Addition addi=new Addition();
+        Generator gener=new Generator();
+
+        System.out.println(multi.multiplication(first,second));
+        //System.out.println(addi. (first,second));
+        System.out.println(gener.generating_polynomial(first, first.t));
         //mnożenie
 
     }

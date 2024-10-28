@@ -1,7 +1,7 @@
 package org.example;
 
 public class Multiplication {
-    public static Signal multiplication (Signal first, Signal second){
+    public Signal multiplication (Signal first, Signal second){
         if(!first.type.equals("element")){
             if(first.type.equals("decimal")){
                 //zmien decimal->element
