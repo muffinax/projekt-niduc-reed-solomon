@@ -5,12 +5,13 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        first.type = "decimal";
-        second.type = "decimal";
+        String value;
         System.out.println("Podaj wartość pierwszego wielomianu(dziesiętnie)");
-        first.value = in.nextLine();
+        value= in.nextLine();
+        Signal first = new Signal(value, "decimal");
         System.out.println("Podaj wartość drugiego wielomianu(dziesiętnie)");
-        second.value = in.nextLine();
+        value= in.nextLine();
+        Signal second = new Signal(value, "decimal");
 
         //mnożenie
 
