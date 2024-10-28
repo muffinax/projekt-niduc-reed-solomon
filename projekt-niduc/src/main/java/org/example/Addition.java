@@ -2,17 +2,18 @@ package org.example;
 
 public class Addition {
     public Signal addition (Signal first, Signal second){
+        TypeChange typeChange=new TypeChange();
         if(!first.type.equals("vector")){
             if(first.type.equals("decimal")){
                 //zmien decimal->vector
-                decimalToVector(first);
-            }else /*zmien element->vector*/elementToVector(first);
+                typeChange.decimalToVector(first);
+            }else /*zmien element->vector*/typeChange.elementToVector(first);
         }
         if(!second.type.equals("vector")){
             if(second.type.equals("decimal")){
                 //zmien decimal->vector
-                decimalToVector(second);
-            }else /*zmien element->vector*/elementToVector(second);
+                typeChange.decimalToVector(second);
+            }else /*zmien element->vector*/typeChange.elementToVector(second);
         }
         String a, b, c, d, e;
         if(first.value.charAt(0) == second.value.charAt(0))

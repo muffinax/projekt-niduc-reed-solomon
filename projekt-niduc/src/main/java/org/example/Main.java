@@ -18,7 +18,7 @@ public class Main {
         Generator gener=new Generator();
 
         System.out.println(multi.multiplication(first,second));
-        //System.out.println(addi. (first,second));
+        System.out.println(addi.addition(first,second));
         System.out.println(gener.generating_polynomial(first, first.t));
         //mnożenie
 
