@@ -37,6 +37,6 @@ public class Addition {
         else 
             a = "1";
 
-        return new Signal(a+b+c+d+e, "vector");
+        return new Signal(e+d+c+b+a, "vector");
     }
 }

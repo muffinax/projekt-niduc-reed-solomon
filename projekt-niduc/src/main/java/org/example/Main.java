@@ -15,11 +15,11 @@ public class Main {
 
         Multiplication multi=new Multiplication();
         Addition addi=new Addition();
-        Generator gener=new Generator();
+        //Generator gener=new Generator();
 
-        //System.out.println(multi.multiplication(first,second));
-        //System.out.println(addi.addition(first,second));
-        System.out.println(gener.generating_polynomial(first, first.t).type);
+        System.out.println(multi.multiplication(first,second).value);
+        System.out.println(addi.addition(first,second).value);
+        //System.out.println(gener.generating_polynomial(first, first.t).type);
         //mnożenie
 
     }

@@ -15,8 +15,14 @@ public class Multiplication {
                 typeChange.decimalToVector(second);
             }/*zmien vector->element*/typeChange.vectorToElement(second);
         }
-        return first;
-//        return new Signal(
-//                String.valueOf((Integer.parseInt(first.value.charAt(0)) + Integer.parseInt(second.value.charAt(0))) % 31), "element");
+        int fir = Integer.parseInt(String.valueOf(first.value.charAt(2))) + 10 *Integer.parseInt(String.valueOf(first.value.charAt(1)));
+        int sec = Integer.parseInt(String.valueOf(second.value.charAt(2))) + 10 *Integer.parseInt(String.valueOf(second.value.charAt(1)));
+        if (fir == 32 || sec == 32) return new Signal("A32","element");
+        String wynik;
+        if((fir + sec)%31 < 10)
+            wynik = "0" + String.valueOf((fir + sec)%31);
+        else
+            wynik = String.valueOf((fir + sec)%31);
+        return new Signal("A" + wynik, "element");
     }
 }
