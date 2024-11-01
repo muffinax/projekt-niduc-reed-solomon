@@ -85,7 +85,7 @@ public class TypeChange {
     }
     public void elementToVector(Signal signal){
         switch(signal.value){
-            case "0": //A32
+            case "A32": //0
                 signal.value = "00000"; break;
             case "A00": //A31
                 signal.value = "00001";break;
