@@ -17,6 +17,7 @@ public class Main {
         Addition addi=new Addition();
         Polynomial polynomial=new Polynomial(new int[] {5,3, 0,-2,9});
         Polynomial poly2 = new Polynomial(new int[] {2,-5,1});
+        Polynomial poly1 = new Polynomial(new int[] {2,1});
 
         System.out.println(multi.multiplication(first,second).value);
         System.out.println(addi.addition(first,second).value);
@@ -24,6 +25,8 @@ public class Main {
 
         polynomial.add_polynomials(poly2.getPolynomial());
         polynomial.show_polynomial();
+        poly1.mul_polynomials(poly2.getPolynomial());
+        poly1.show_polynomial();
         //mnożenie
 
     }

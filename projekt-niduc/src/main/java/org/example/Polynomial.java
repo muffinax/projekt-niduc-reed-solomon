@@ -29,9 +29,15 @@ public class Polynomial {       //Działa trochę jak BigInteger
         }
         polynomial=result;
     }
-    int[] mul_polynomials(int[] polynomial_1, int[] polynomial_2){
-        int[] result = new int[polynomial_1.length+polynomial_2.length-1];
-        return result;
+    void mul_polynomials(int[] polynomial_2){
+        int[] result = new int[polynomial.length+polynomial_2.length-1];
+        for(int i=0;i<result.length;i++) result[i] = 0;
+        for(int i=0;i<polynomial.length;i++){
+            for(int j=0;j<polynomial_2.length;j++){
+                result[i+j]+=polynomial[i]*polynomial_2[j];
+            }
+        }
+        polynomial=result;
     }
     int[] generator(){
         int[] result = new int[10];
@@ -44,6 +50,7 @@ public class Polynomial {       //Działa trochę jak BigInteger
                 System.out.print("x^" + i + "(" + polynomial[i] + ")");
             }
         }
+        System.out.println();
     }
     int[] getPolynomial(){return polynomial;}
 }
