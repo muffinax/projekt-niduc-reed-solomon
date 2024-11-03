@@ -15,19 +15,17 @@ public class Main {
 
         Multiplication multi=new Multiplication();
         Addition addi=new Addition();
-        Polynomial polynomial=new Polynomial(new int[] {5,3, 0,-2,9});
-        Polynomial poly2 = new Polynomial(new int[] {2,-5,1});
-        Polynomial poly1 = new Polynomial(new int[] {2,1});
+        Polynomial polynomial=new Polynomial(new String[] {"5","3", "0","-2","9"},"decimal");
+        Polynomial poly2 = new Polynomial(new String[] {"2","5","1"}, "decimal");
+        Polynomial poly1 = new Polynomial(new String[] {"2","1"}, "decimal");
 
-        System.out.println(multi.multiplication(first,second).value);
-        System.out.println(addi.addition(first,second).value);
-        //System.out.println(polynomial.add_polynomials(pol1,pol2));
+        System.out.println(multi.multiplication(first,second).getValueE());
+        System.out.println(addi.addition(first,second).getValueV());
+        addi.add_polynomials(poly1,poly2).show_polynomial();
 
-        polynomial.add_polynomials(poly2.getPolynomial());
-        polynomial.show_polynomial();
-        poly1.mul_polynomials(poly2.getPolynomial());
-        poly1.show_polynomial();
-        //mnożenie
-
+//        polynomial.add_polynomials(poly2.getPolynomial());
+//        polynomial.show_polynomial();
+//        poly1.mul_polynomials(poly2.getPolynomial());
+//        poly1.show_polynomial();
     }
 }

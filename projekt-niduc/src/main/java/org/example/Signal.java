@@ -1,12 +1,57 @@
 package org.example;
 
 public class Signal {
-    String value; //wartosc sygnału
-    String type; // w jakiej formie zapisany: decimal/vector/element
+    TypeChange typeChange=new TypeChange();
+    private String valueV;  //vector
+    private String valueE;  //element
+    private String valueD;  //decimal
 
-
-    public Signal(String value, String type){
-        this.type = type;
-        this.value = value;
+    Signal(){
+        valueV="00000";
+        valueE="A32";
+        valueD="0";
     }
+    public Signal(String value, String type){
+        if(type.equals("decimal")){
+            valueD=value;
+            valueE=typeChange.vectorToElement(typeChange.decimalToVector(value));
+            valueV=typeChange.decimalToVector(value);
+        } else if (type.equals("vector")) {
+            valueV=value;
+            valueD=typeChange.vectorToDecimal(value);
+            valueE=typeChange.vectorToElement(value);
+        } else if (type.equals("element")) {
+            valueE=value;
+            valueV=typeChange.elementToVector(value);
+            valueD=typeChange.vectorToDecimal(typeChange.elementToVector(value));
+        }
+        else{
+            System.out.println("wrong type of signal");
+            valueV="00000";
+            valueE="A32";
+            valueD="0";
+        }
+    }
+    void setValue(String value, String type){
+        if(type.equals("decimal")){
+            valueD=value;
+            valueE=typeChange.vectorToElement(typeChange.decimalToVector(value));
+            valueV=typeChange.decimalToVector(value);
+        } else if (type.equals("vector")) {
+            valueV=value;
+            valueD=typeChange.vectorToDecimal(value);
+            valueE=typeChange.vectorToElement(value);
+        } else if (type.equals("element")) {
+            valueE=value;
+            valueV=typeChange.elementToVector(value);
+            valueD=typeChange.vectorToDecimal(typeChange.elementToVector(value));
+        }
+        else{
+            System.out.println("wrong type of signal - can't change values");
+        }
+    }
+
+    String getValueV(){return valueV;}
+    String getValueD(){return valueD;}
+    String getValueE(){return valueE;}
 }
