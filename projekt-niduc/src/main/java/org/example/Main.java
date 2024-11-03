@@ -23,6 +23,7 @@ public class Main {
         System.out.println(addi.addition(first,second).getValueV());
         addi.add_polynomials(poly1,poly2).show_polynomial();
 
+        //tudidu
 //        polynomial.add_polynomials(poly2.getPolynomial());
 //        polynomial.show_polynomial();
 //        poly1.mul_polynomials(poly2.getPolynomial());
