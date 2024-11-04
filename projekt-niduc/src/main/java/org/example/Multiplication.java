@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Arrays;
+
 public class Multiplication {
     public Signal multiplication (Signal first, Signal second){
 
@@ -17,9 +19,11 @@ public class Multiplication {
     Polynomial mul_polynomials(Polynomial p1, Polynomial p2){
         Addition add = new Addition();
         String[] value = new String[p1.getPolynomial().length+p2.getPolynomial().length-1];
-        Polynomial result = new Polynomial(value,"element");
+
         //zerowanie wyniku
-        for(int i=0;i<result.getPolynomial().length;i++) result.getPolynomialSignal(i).setValue("0","decimal");
+        Arrays.fill(value, "A32");
+
+        Polynomial result = new Polynomial(value,"element");
 
         for(int i=0;i<p1.getPolynomial().length;i++){
             for(int j=0;j<p2.getPolynomial().length;j++) {

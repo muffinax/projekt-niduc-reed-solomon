@@ -30,7 +30,7 @@ public class Addition {
     }
 
     Polynomial add_polynomials(Polynomial p1, Polynomial p2){
-        String[] result={"0"};
+        String[] result;
         if(p1.getPolynomial().length>p2.getPolynomial().length) {
             result = new String[p1.getPolynomial().length];
             for(int i=0;i<p1.getPolynomial().length;i++){

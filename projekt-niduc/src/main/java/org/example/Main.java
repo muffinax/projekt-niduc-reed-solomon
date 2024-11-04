@@ -15,13 +15,14 @@ public class Main {
 
         Multiplication multi=new Multiplication();
         Addition addi=new Addition();
-        Polynomial polynomial=new Polynomial(new String[] {"5","3", "0","-2","9"},"decimal");
+        //Polynomial polynomial=new Polynomial(new String[] {"5","3", "0","-2","9"},"decimal");
         Polynomial poly2 = new Polynomial(new String[] {"2","5","1"}, "decimal");
         Polynomial poly1 = new Polynomial(new String[] {"2","1"}, "decimal");
 
         System.out.println(multi.multiplication(first,second).getValueE());
         System.out.println(addi.addition(first,second).getValueV());
         addi.add_polynomials(poly1,poly2).show_polynomial();
+        multi.mul_polynomials(poly1,poly2).show_polynomial();
 
         //tudidu
 //        polynomial.add_polynomials(poly2.getPolynomial());

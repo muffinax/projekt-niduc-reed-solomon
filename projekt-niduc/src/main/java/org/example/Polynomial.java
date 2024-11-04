@@ -14,16 +14,25 @@ public class Polynomial {       //Działa trochę jak BigInteger
         this.polynomial=new Signal[1];
         this.polynomial[0]=new Signal("0", "decimal");
     }
-
-    String[] generator(){
-        String[] result = new String[10];
-        return result;
-    }
     void show_polynomial(){
         for(int i=polynomial.length-1;i>=0;i--){
 //            if(!polynomial[i].getValueD().equals("0")) {         //pomija 0
                 if(i<polynomial.length-1) System.out.print(" + ");
                 System.out.print("x^" + i + "(" + polynomial[i].getValueD() + ")");
+//            }
+        }
+        System.out.println();
+        for(int i=polynomial.length-1;i>=0;i--){
+//            if(!polynomial[i].getValueD().equals("0")) {         //pomija 0
+            if(i<polynomial.length-1) System.out.print(" + ");
+            System.out.print("x^" + i + "(" + polynomial[i].getValueV() + ")");
+//            }
+        }
+        System.out.println();
+        for(int i=polynomial.length-1;i>=0;i--){
+//            if(!polynomial[i].getValueD().equals("0")) {         //pomija 0
+            if(i<polynomial.length-1) System.out.print(" + ");
+            System.out.print("x^" + i + "(" + polynomial[i].getValueE() + ")");
 //            }
         }
         System.out.println();
