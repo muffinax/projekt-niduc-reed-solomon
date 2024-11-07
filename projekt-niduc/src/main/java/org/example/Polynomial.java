@@ -10,6 +10,9 @@ public class Polynomial {       //Działa trochę jak BigInteger
             this.polynomial[i]=new Signal(polynomial[i], type);
         }
     }
+    Polynomial(Polynomial polynomial){
+        this.polynomial=polynomial.getPolynomial();
+    }
     Polynomial(){
         this.polynomial=new Signal[1];
         this.polynomial[0]=new Signal("0", "decimal");
