@@ -5,12 +5,10 @@ import java.util.ArrayList;
 public class Encoder {
     public String[] encode(Polynomial message){
         Generator generator = new Generator();
-        Addition addition = new Addition();
         Multiplication multiplication = new Multiplication();
         String[] encodedMessage = new String[message.getPolynomial().length];
         String[] rx = new String[message.getPolynomial().length];
         Polynomial xnkxm = new Polynomial(message);
-        Signal zero = new Signal();
         //zrobienie wielomianu x^(n-k) * m(x)
         for(int i = 0; i < xnkxm.getPolynomial().length; i++){
             for(int j = 0; j < 12; j++){
