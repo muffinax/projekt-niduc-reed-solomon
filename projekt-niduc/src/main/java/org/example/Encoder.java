@@ -1,7 +1,5 @@
 package org.example;
 
-import java.util.ArrayList;
-
 public class Encoder {
     public String[] encode(Polynomial message){
         Generator generator = new Generator();
