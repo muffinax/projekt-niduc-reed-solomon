@@ -18,6 +18,7 @@ public class Multiplication {
 
     Polynomial mul_polynomials(Polynomial p1, Polynomial p2){
         Addition add = new Addition();
+        //długość tablicy to suma długości mnożonych wielomianów
         String[] value = new String[p1.getPolynomial().length+p2.getPolynomial().length-1];
 
         //zerowanie wyniku

@@ -30,21 +30,46 @@ public class Addition {
     }
 
     Polynomial add_polynomials(Polynomial p1, Polynomial p2){
+        int l;  //l1 - dłuższy wielomian
         String[] result;
-        if(p1.getPolynomial().length>p2.getPolynomial().length) {
+
+        Comparator comparator=new Comparator();
+        if(comparator.compare_pol(p1,p2)==0)   //gdy są równe zwraca wartość 0
+            return new Polynomial(new String[] {"00000"}, "vector");
+
+        //jeżeli długość wielomianu jest ta sama i najwyższe potęgi się zerują, to zmniejsza wielomian, by nie było niepotrzebnych zer
+        if(p1.getPolynomial().length==p2.getPolynomial().length)
+        {
+            l=p1.getPolynomial().length-1;
+            while(Integer.parseInt(p1.getPolynomialSignal(l).getValueD())==Integer.parseInt(p2.getPolynomialSignal(l).getValueD()))
+                l--;
+            l++;
+
+            //dodawanie:
+            result = new String[l];
+            for(int i=0;i<l;i++)
+                result[i]=addition(p1.getPolynomialSignal(i),p2.getPolynomialSignal(i)).getValueV();
+        }
+        //dłuższy wielomian (p1)
+        else if(p1.getPolynomial().length>p2.getPolynomial().length) {
+            //dodawanie:
             result = new String[p1.getPolynomial().length];
             for(int i=0;i<p1.getPolynomial().length;i++){
                 if(i<p2.getPolynomial().length)   result[i]=addition(p1.getPolynomialSignal(i),p2.getPolynomialSignal(i)).getValueV();
                 else result[i]=p1.getPolynomialSignal(i).getValueV();
             }
         }
-        else{
+
+        //dłuższy wielomian (p2)
+        else {
+            //dodawanie:
             result = new String[p2.getPolynomial().length];
             for(int i=0;i<p2.getPolynomial().length;i++){
                 if(i<p1.getPolynomial().length)   result[i]=addition(p1.getPolynomialSignal(i),p2.getPolynomialSignal(i)).getValueV();
                 else result[i]=p2.getPolynomialSignal(i).getValueV();
             }
         }
+
         return new Polynomial(result,"vector");
     }
 
