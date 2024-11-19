@@ -3,12 +3,11 @@ package org.example;
 public class Encoder {
     public Polynomial encode(Polynomial message){
         Generator generator = new Generator();
-        Addition addition = new Addition();
-        Multiplication multiplication = new Multiplication();
+        MathPolynomials mathPolynomials=new MathPolynomials();
         String[] encodedMessage = new String[message.getPolynomial().length];
         //wielomian x^(n-k) * m(x)
         System.out.println("Wielomian m(x) na wielomian x^(n-k) * m(x):");
-        Polynomial xnkmx = multiplication.mul_polynomials(new Polynomial(
+        Polynomial xnkmx = mathPolynomials.mulPolynomials(new Polynomial(
                 new String[]{"A00","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32"},"element"), message);
         xnkmx.show_polynomial();
 
