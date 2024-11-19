@@ -3,7 +3,7 @@ package org.example;
 public class Encoder {
     public String[] encode(Polynomial message){
         Generator generator = new Generator();
-        Multiplication multiplication = new Multiplication();
+        MathPolynomials mathPolynomials=new MathPolynomials();
         String[] encodedMessage = new String[message.getPolynomial().length];
         String[] rx = new String[message.getPolynomial().length];
         //wielomian x^(n-k) * m(x)
@@ -19,7 +19,7 @@ public class Encoder {
         }
         //uzyskanie r(x)
         System.out.println("\nReszty r(x):");
-        Polynomial mxg = multiplication.mul_polynomials(xnkxm, generator.polynomial_generator());
+        Polynomial mxg = mathPolynomials.mulPolynomials(xnkxm, generator.polynomial_generator());
         for(int i = 0; i < message.getPolynomial().length;i++){
             rx[i] = mxg.getPolynomialSignal(i).getValueD();
             //dopełnienie r(x) do odpowiedniej długosci
