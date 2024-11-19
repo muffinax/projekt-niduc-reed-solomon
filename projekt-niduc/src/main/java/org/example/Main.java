@@ -23,10 +23,12 @@ public class Main {
         Generator generator= new Generator();
         Comparator comparator=new Comparator();
 
-        poly1.show_polynomial();
-        System.out.println();
-        poly2.show_polynomial();
-        System.out.println();
+        //poly1.show_polynomial();
+        //System.out.println();
+        //poly2.show_polynomial();
+        //System.out.println();
+        Polynomial enc1 = encoder.encode(poly1);
+        enc1.show_polynomial();
 
 //        System.out.println(multi.multiplication(first,second).getValueE());
 //        System.out.println(addi.addition(first,second).getValueE());
