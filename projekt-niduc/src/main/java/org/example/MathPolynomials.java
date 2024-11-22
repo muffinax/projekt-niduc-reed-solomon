@@ -148,7 +148,15 @@ public class MathPolynomials {
 
         for(int i=0;i<p1.getPolynomial().length;i++){
             for(int j=0;j<p2.getPolynomial().length;j++) {
+
+//                  testowanie
+//                System.out.println("p1["+i+"]   *   p2["+j+"]");
+//                System.out.println(result.getPolynomialSignal(i+j).getValueE()+" + "+p1.getPolynomialSignal(i).getValueE()+ " * "+ p2.getPolynomialSignal(j).getValueE());
+
                 result.getPolynomialSignal(i+j).setValue(addition(result.getPolynomialSignal(i+j),multiplication(p1.getPolynomialSignal(i),p2.getPolynomialSignal(j))).getValueE(),"element");
+//                  testowanie
+//                System.out.println(result.getPolynomialSignal(i+j).getValueE());
+//                System.out.println();
             }
         }
         return result;
@@ -156,7 +164,7 @@ public class MathPolynomials {
 
     //-------------------------------------------------------------------------------------------------
     //6. OBLICZANIE RESZTY Z DZIELENIA p1 PRZEZ p2 (p1%p2)
-    //!!! p2 MUSI MIEĆ WARTOŚĆ SYGNAŁU 1 DLA x O NAJWIĘKSZEJ POTĘDZE (p2[length-1]==1) !!!
+    //!!! p2 MUSI MIEC WARTOSC SYGNALU 1 DLA x O NAJWIĘKSZEJ POTĘDZE (p2[length-1]==1) !!!
     Polynomial moduloPol(Polynomial p1,Polynomial p2){
         //gdy są takie same reszta = 0
         if(comparePol(p1,p2)==0){
@@ -170,23 +178,39 @@ public class MathPolynomials {
         else{
             Polynomial result;      //wynik częściowego dzielenia
             String[] sresult;       //wynik częściowego dzielenia w typie String
-            Polynomial modulo = new Polynomial(new String[]{"0"},"decimal");         //reszta z dzielenia
 
-            //dopóki p1 nie będzie tej samej długości co p2 - odejmujemy result
-            for(int i=p1.getPolynomial().length-p2.getPolynomial().length;i>0;i--){
-                sresult=new String[i+1];
-                for (int j=0;j<i;j++)
-                {
-                    sresult[j]="1";
-                }
+            //warunek oblicza maksymalną potęgę x potrzebną do dzielenia
+            for(int i=p1.getPolynomial().length-p2.getPolynomial().length;i>=0;i--){
+                sresult=new String[i+1];    //tablica ma długość znaczącego x
+
+                Polynomial test=new Polynomial();
+
+                //nadajemy wartość sresult i result wartosc x do potegi dzielnika
+                for (int j=0;j<i;j++)   sresult[j]="0";
                 sresult[i]=p1.getPolynomialSignal(p1.getPolynomial().length-1).getValueD();
                 result = new Polynomial(sresult,"decimal");
-                p1=addPolynomials(p1,result);
+
+//                  testowanie
+//                System.out.println("potega");
+//                result.show_polynomial();
+//                System.out.println();
+
+//                  testowanie
+//                test=new Polynomial(mulPolynomials(result,p2));
+//                System.out.println("mnozenie dzielnika i potegi");
+//                test.show_polynomial();
+//                System.out.println();
+
+                //sumuje największy możliwy element - w ten sposób wielomian się zmniejsza
+                if(sresult.length+p2.getPolynomial().length-1==p1.getPolynomial().length)
+                    p1=addPolynomials(p1,mulPolynomials(result,p2));
+
+//                  testowanie
+//                System.out.println("wynik");
+//                p1.show_polynomial();
+//                System.out.println();
             }
-
-            //gdy p1 i p2 są tej samej długości
-
-            return modulo;
+            return p1;
         }
     }
 }
