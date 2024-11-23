@@ -12,7 +12,6 @@ public class Generator {
             else    gen.getPolynomialSignal(0).setValue("A"+ i,"element");
 
             result=mathPolynomials.mulPolynomials(result,gen);
-            result.show_polynomial();
         }
 
         return result;
