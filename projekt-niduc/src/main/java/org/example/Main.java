@@ -7,7 +7,7 @@ public class Main {
 
         Encoder encoder = new Encoder();
         Polynomial poly1 = new Polynomial(new String[] {"A12","A09","A00"}, "element");
-        Polynomial poly2 = new Polynomial(new String[] {"A02","A00"}, "element");
+        Polynomial poly2 = new Polynomial(new String[] {"A02","A03"}, "element");
         Polynomial poly3 = new Polynomial(new String[] {"A22","A05","A00"}, "element");
         Polynomial polyt = new Polynomial(new String[] {"A32","A32","A32","A32","A32","A32","A20"}, "element");
         Generator generator= new Generator();
