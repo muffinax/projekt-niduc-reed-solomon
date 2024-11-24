@@ -18,14 +18,21 @@ public class Main {
         //System.out.println();
         //poly2.show_polynomial();
         //System.out.println();
+        System.out.println("Kodowany wielomian:");
+        poly1.show_polynomial();
         Polynomial enc1 = encoder.encode(poly1);
+        System.out.println("Zakodowany wielomian:");
         enc1.show_polynomial();
+        Polynomial dec1 = encoder.decode(enc1);
+        System.out.println("Odkodowany wielomian:");
+        dec1.show_polynomial();
 
-        mathPolynomials.moduloPol(generator_poly,poly2).show_polynomial();
-        System.out.println();
 
-        generator.polynomial_generator().show_polynomial();
-        System.out.println();
+        //mathPolynomials.moduloPol(generator_poly,poly2).show_polynomial();
+        //System.out.println();
+
+        //generator.polynomial_generator().show_polynomial();
+        //System.out.println();
 
 //        Signal s20 =new Signal("A20","element");
 //        Signal s00 =new Signal("A32","element");

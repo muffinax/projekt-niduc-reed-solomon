@@ -43,6 +43,36 @@ public class Polynomial {
         }
         System.out.println();
     }
+    //oblicza wage Hamminga wielomianu
+    public int hammingWeight(){
+        int result = 0;
+        for(int i = 0; i < polynomial.length; i++){
+            if(!polynomial[i].getValueE().equals("A32")){
+                result++;
+            }
+        }
+        return result;
+    }
+
+    //przesuwa wspolczynniki wielomianu w lewo (L) lub prawo (R)
+    public void shiftPolynomial(String direction){
+        if(direction.equals("L")){
+            int len = polynomial.length;
+            Signal help = polynomial[0];
+            for(int i = 1; i < polynomial.length; i++){
+                polynomial[i-1] = polynomial[i];
+            }
+            polynomial[len] = help;
+        }
+        else if(direction.equals("R")){
+            int len = polynomial.length;
+            Signal help = polynomial[len];
+            for(int i = polynomial.length; i > 0; i--){
+                polynomial[i] = polynomial[i-1];
+            }
+            polynomial[0] = help;
+        }
+    }
     Signal[] getPolynomial(){return polynomial;}
     Signal getPolynomialSignal(int i){return polynomial[i];}    //i to wartość potęgi x
 }
