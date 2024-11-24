@@ -3,27 +3,20 @@ package org.example;
 public class Encoder {
     public Polynomial encode(Polynomial message){
         Generator generator = new Generator();
+        Polynomial generator_poly = new Polynomial(generator.polynomial_generator());
         MathPolynomials mathPolynomials=new MathPolynomials();
-        String[] encodedMessage = new String[message.getPolynomial().length];
+
         //wielomian x^(n-k) * m(x)
-        System.out.println("Wielomian m(x) na wielomian x^(n-k) * m(x):");
-        Polynomial xnkmx = mathPolynomials.mulPolynomials(new Polynomial(
-                new String[]{"A00","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32"},"element"), message);
-        xnkmx.show_polynomial();
+        Polynomial xnkmx = mathPolynomials.mulPolynomials(
+                new Polynomial(
+                new String[]{"A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A00"},"element"),
+                message);
 
         //uzyskanie r(x)
-        System.out.println("\nReszty r(x):");
-        //Polynomial rx = new Polynomial();
-        //Polynomial rx = podzielone xnkmx przez generujacy;
+        Polynomial rx = mathPolynomials.moduloPol(xnkmx, generator_poly);
 
         //Otrzymanie ostatecznego wielomianu c(x):
-        //Polynomial cx = addition.add_polynomials(xnkmx, rx);
-        //zapisanie cx w tablicy string (nie wiem czy chcemy String[] czy zwracać polynomial?)
-        System.out.println("Zakodowane c(x) w tablicy:");
-        //for(int i = 0; i < cx.getPolynomial().length;i++){
-            //encodedMessage[i] = cx.getPolynomialSignal(i).getValueD();
-            //System.out.println(encodedMessage[i] + "\n");
-        //}
-        return xnkmx;
+        Polynomial cx = mathPolynomials.addPolynomials(xnkmx, rx);
+        return cx;
     }
 }

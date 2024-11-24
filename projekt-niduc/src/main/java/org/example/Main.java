@@ -18,8 +18,8 @@ public class Main {
         //System.out.println();
         //poly2.show_polynomial();
         //System.out.println();
-//        Polynomial enc1 = encoder.encode(poly1);
-//        enc1.show_polynomial();
+        Polynomial enc1 = encoder.encode(poly1);
+        enc1.show_polynomial();
 
         mathPolynomials.moduloPol(generator_poly,poly2).show_polynomial();
         System.out.println();
