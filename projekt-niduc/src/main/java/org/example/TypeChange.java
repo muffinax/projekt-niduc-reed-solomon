@@ -128,7 +128,7 @@ public class TypeChange {
             case "A19":
                 signal = "00110";break;
             case "A20":
-                signal = "11000";break;
+                signal = "01100";break;
             case "A21":
                 signal = "11000";break;
             case "A22":
