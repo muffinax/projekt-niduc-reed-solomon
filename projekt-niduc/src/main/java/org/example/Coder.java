@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class Coder {
     private static final Map<String, Integer> stringToCode = new HashMap<>();
-    private static final Map<Integer, String> codeToString = new HashMap<>();
     
     static {
         // Mapowanie stringów
@@ -43,11 +42,6 @@ public class Coder {
         stringToCode.put("!", 0b11101);//29
         stringToCode.put("?", 0b11110);//30
         stringToCode.put(" ", 0b11111);//31
-
-        // Tworzenie odwrotnego mapowania
-        for(Map.Entry<String, Integer> entry : stringToCode.entrySet()) {
-            codeToString.put(entry.getValue(), entry.getKey());
-        }
     }
      // Funkcja enkodująca ciąg stringów na ciąg bitów
      public static String encode(String input) {
@@ -61,25 +55,7 @@ public class Coder {
                 input = input.replace(key, ""); // Usuwamy zakodowaną część
             }
         }
-
         return bitStream.toString();
-    }
-    // Funkcja dekodująca ciąg bitów na ciąg stringów
-    public static String decode(String bitStream) {
-        StringBuilder output = new StringBuilder();
-
-        for(int i = 0; i < bitStream.length(); i += 5) {
-            String bitSegment = bitStream.substring(i, i + 5);
-            int code = Integer.parseInt(bitSegment, 2);
-
-            if(codeToString.containsKey(code)) {
-                output.append(codeToString.get(code));
-            }
-            else
-                throw new IllegalArgumentException("Niepoprawny kod: " + bitSegment);
-        }
-
-        return output.toString();
     }
     public static void coder() {
         Scanner in = new Scanner(System.in);
@@ -87,8 +63,5 @@ public class Coder {
         String input = in.nextLine();
         String encoded = encode(input);
         System.out.println("Zakodowane: " + encoded);
-
-        String decoded = decode(encoded);
-        System.out.println("Odkodowane: " + decoded);
     }
 }

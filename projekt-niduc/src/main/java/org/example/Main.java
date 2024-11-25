@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        Coder coder = new Coder();
         Encoder encoder = new Encoder();
         Polynomial poly1 = new Polynomial(new String[] {"A12","A09","A00"}, "element");
         Polynomial poly2 = new Polynomial(new String[] {"A02","A03"}, "element");
@@ -13,6 +14,8 @@ public class Main {
         Generator generator= new Generator();
         Polynomial generator_poly = new Polynomial(generator.polynomial_generator());
         MathPolynomials mathPolynomials=new MathPolynomials();
+
+        coder.coder();
 
         //poly1.show_polynomial();
         //System.out.println();
