@@ -15,7 +15,7 @@ public class Main {
         Polynomial generator_poly = new Polynomial(generator.polynomial_generator());
         MathPolynomials mathPolynomials=new MathPolynomials();
 
-        coder.coder();
+        Coder.coder();
 
         //poly1.show_polynomial();
         //System.out.println();

@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -41,7 +42,7 @@ public class Coder {
         stringToCode.put(".", 0b11100);//28
         stringToCode.put("!", 0b11101);//29
         stringToCode.put("?", 0b11110);//30
-        stringToCode.put(" ", 0b11111);//31
+        stringToCode.put(";", 0b11111);//31
     }
      // Funkcja enkodująca ciąg stringów na ciąg bitów
      public static String encode(String input) {
@@ -61,7 +62,7 @@ public class Coder {
         Scanner in = new Scanner(System.in);
         System.out.println("Wpisz zdanie do zakodowania: ");
         String input = in.nextLine();
-        String encoded = encode(input);
+        String encoded = encode(input.toUpperCase());
         System.out.println("Zakodowane: " + encoded);
     }
 }
