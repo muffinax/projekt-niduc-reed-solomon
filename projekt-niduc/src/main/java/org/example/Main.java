@@ -15,7 +15,7 @@ public class Main {
         Polynomial generator_poly = new Polynomial(generator.polynomial_generator());
         MathPolynomials mathPolynomials=new MathPolynomials();
 
-        Coder.coder();
+        //Coder.coder();
 
         //poly1.show_polynomial();
         //System.out.println();
@@ -24,10 +24,14 @@ public class Main {
         System.out.println("Kodowany wielomian:");
         poly1.show_polynomial();
         Polynomial enc1 = encoder.encode(poly1);
-        System.out.println("Zakodowany wielomian:");
+        System.out.println("\nZakodowany wielomian:");
+        enc1.show_polynomial();
+        enc1 = mathPolynomials.addPolynomials(enc1, new Polynomial(
+                new String[]{"A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A00"},"element"));
+        System.out.println("\nPrzekłamany:");
         enc1.show_polynomial();
         Polynomial dec1 = encoder.decode(enc1);
-        System.out.println("Odkodowany wielomian:");
+        System.out.println("\nOdkodowany wielomian:");
         dec1.show_polynomial();
 
 
