@@ -41,7 +41,7 @@ public class Encoder {
                 }
                 return cdx;
             }else{
-                if(numberOfShifts == 5){
+                if(numberOfShifts >= 5){
                     System.out.println("Na tym etapie dekoder nie jest w stanie odkodowac tego wielomianu, " +
                             "zwrocony zostanie wielomian wejsciowy.");
                     for(int i = 0; i < numberOfShifts; i++){

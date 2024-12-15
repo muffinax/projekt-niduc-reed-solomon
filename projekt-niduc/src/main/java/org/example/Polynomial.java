@@ -28,7 +28,7 @@ public class Polynomial {
 //            }
         }
         System.out.println();
-        for(int i=polynomial.length-1;i>=0;i--){
+        /*for(int i=polynomial.length-1;i>=0;i--){
 //            if(!polynomial[i].getValueD().equals("0")) {         //pomija x oo wartości 0
             if(i<polynomial.length-1) System.out.print(" + ");
             System.out.print("x^" + i + "(" + polynomial[i].getValueV() + ")");
@@ -41,7 +41,7 @@ public class Polynomial {
             System.out.print("x^" + i + "(" + polynomial[i].getValueE() + ")");
 //            }
         }
-        System.out.println();
+        System.out.println();*/
     }
     //oblicza wage Hamminga wielomianu
     public int hammingWeight(){
@@ -56,21 +56,15 @@ public class Polynomial {
 
     //przesuwa wspolczynniki wielomianu w lewo (L) lub prawo (R)
     public void shiftPolynomial(String direction){
-        if(direction.equals("L")){
-            int len = polynomial.length;
-            Signal help = polynomial[0];
-            for(int i = 1; i < polynomial.length; i++){
-                polynomial[i-1] = polynomial[i];
-            }
-            polynomial[len] = help;
-        }
-        else if(direction.equals("R")){
-            int len = polynomial.length;
-            Signal help = polynomial[len];
-            for(int i = polynomial.length; i > 0; i--){
-                polynomial[i] = polynomial[i-1];
-            }
-            polynomial[0] = help;
+        int len = polynomial.length;
+        if (direction.equals("L")) {
+            Signal first = polynomial[0];
+            System.arraycopy(polynomial, 1, polynomial, 0, len - 1);
+            polynomial[len - 1] = first;
+        } else if (direction.equals("R")) {
+            Signal last = polynomial[len - 1];
+            System.arraycopy(polynomial, 0, polynomial, 1, len - 1);
+            polynomial[0] = last;
         }
     }
     Signal[] getPolynomial(){return polynomial;}

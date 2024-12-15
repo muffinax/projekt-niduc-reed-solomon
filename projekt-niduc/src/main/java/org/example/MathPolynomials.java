@@ -1,6 +1,8 @@
 package org.example;
 import java.util.Arrays;
 
+import static java.lang.Math.pow;
+
 public class MathPolynomials {
     //KOLEJNOŚĆ METOD:
     //1. comparePol(p1,p2) - porównuje dwa wielomiany; zwraca int {-1,0,1}
@@ -165,6 +167,7 @@ public class MathPolynomials {
     //-------------------------------------------------------------------------------------------------
     //6. OBLICZANIE RESZTY Z DZIELENIA p1 PRZEZ p2 (p1%p2)
     //!!! p2 MUSI MIEC WARTOSC SYGNALU 1 DLA x O NAJWIĘKSZEJ POTĘDZE (p2[length-1]==1) !!!
+
     Polynomial moduloPol(Polynomial p1,Polynomial p2){
         //sprawdza, czy dzielnik jest poprawny
         if(p2.getPolynomialSignal((p2.getPolynomial().length)-1).getValueD().equals("1")){
