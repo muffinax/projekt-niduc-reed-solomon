@@ -21,6 +21,9 @@ public class Main {
         //System.out.println();
         //poly2.show_polynomial();
         //System.out.println();
+
+
+        //TEST PROSTEGO DEKODERA
         System.out.println("Kodowany wielomian:");
         poly1.show_polynomial();
         Polynomial enc1 = encoder.encode(poly1);

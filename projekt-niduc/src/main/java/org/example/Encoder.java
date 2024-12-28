@@ -31,17 +31,19 @@ public class Encoder {
         //ws - waga Hamminga syndromu - liczba niezerowych współczynników
 
         int numberOfShifts = 0; //licznik, ile razy zostanie przesunięty wielomian
+        int maxShifts = cyx.getPolynomial().length - gx.getPolynomial().length;
+        int t = 6;
         while(true){
             Polynomial sx = mathPolynomials.moduloPol(cyx,gx);
             int ws = sx.hammingWeight();
-            if(ws <= 6){
+            if(ws <= t){
                 Polynomial cdx = mathPolynomials.addPolynomials(cyx, sx);
                 for(int i = 0; i < numberOfShifts; i++){
                     cdx.shiftPolynomial("L");
                 }
                 return cdx;
             }else{
-                if(numberOfShifts >= 5){
+                if(numberOfShifts >= maxShifts){
                     System.out.println("Na tym etapie dekoder nie jest w stanie odkodowac tego wielomianu, " +
                             "zwrocony zostanie wielomian wejsciowy.");
                     for(int i = 0; i < numberOfShifts; i++){
