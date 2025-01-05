@@ -22,20 +22,21 @@ public class Main {
         //poly2.show_polynomial();
         //System.out.println();
 
-
         //TEST PROSTEGO DEKODERA
+        System.out.println("Generator:");
+        generator_poly.show_polynomial();
         System.out.println("Kodowany wielomian:");
-        poly1.show_polynomial();
-        Polynomial enc1 = encoder.encode(poly1);
+        poly2.show_polynomial();
+        Polynomial enc2 = encoder.encode(poly2);
         System.out.println("\nZakodowany wielomian:");
-        enc1.show_polynomial();
-        enc1 = mathPolynomials.addPolynomials(enc1, new Polynomial(
-                new String[]{"A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A00"},"element"));
+        enc2.show_polynomial();
+        enc2 = mathPolynomials.addPolynomials(enc2, new Polynomial(
+                new String[]{"A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A04"},"element"));
         System.out.println("\nPrzekłamany:");
-        enc1.show_polynomial();
-        Polynomial dec1 = encoder.decode(enc1);
+        enc2.show_polynomial();
+        Polynomial dec2 = encoder.simpleDecoder(enc2);
         System.out.println("\nOdkodowany wielomian:");
-        dec1.show_polynomial();
+        dec2.show_polynomial();
 
 
         //mathPolynomials.moduloPol(generator_poly,poly2).show_polynomial();
