@@ -14,6 +14,7 @@ public class Polynomial {
     Polynomial(Polynomial polynomial){
         this.polynomial=polynomial.getPolynomial();
     }
+
     Polynomial(){
         this.polynomial=new Signal[1];
         this.polynomial[0]=new Signal("0", "decimal");

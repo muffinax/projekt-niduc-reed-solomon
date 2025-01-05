@@ -155,7 +155,7 @@ public class MathPolynomials {
 //                System.out.println("p1["+i+"]   *   p2["+j+"]");
 //                System.out.println(result.getPolynomialSignal(i+j).getValueE()+" + "+p1.getPolynomialSignal(i).getValueE()+ " * "+ p2.getPolynomialSignal(j).getValueE());
 
-                result.getPolynomialSignal(i+j).setValue(addition(result.getPolynomialSignal(i+j),multiplication(p1.getPolynomialSignal(i),p2.getPolynomialSignal(j))).getValueE(),"element");
+                result.getPolynomialSignal(i+j).setValue(addition(result.getPolynomialSignal(i+j), multiplication(p1.getPolynomialSignal(i), p2.getPolynomialSignal(j))).getValueE(),"element");
 //                  testowanie
 //                System.out.println(result.getPolynomialSignal(i+j).getValueE());
 //                System.out.println();

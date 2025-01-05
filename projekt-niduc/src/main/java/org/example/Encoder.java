@@ -1,6 +1,7 @@
 package org.example;
 
 public class Encoder {
+    //chyba poprawny (już zwątpiłam) koder:
     public Polynomial encode(Polynomial message){
         Generator generator = new Generator();
         Polynomial generator_poly = new Polynomial(generator.polynomial_generator());
@@ -8,7 +9,7 @@ public class Encoder {
         int n = 31;
         int k = 19;
 
-        //wielomian x^(n-k) * m(x)
+        //wielomian x^(n-k) * m(x), m(x) = x^13
         Polynomial xnkmx = mathPolynomials.mulPolynomials(
                 new Polynomial(
                 new String[]{"A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A32","A00"},"element"),
@@ -21,6 +22,7 @@ public class Encoder {
         Polynomial cx = mathPolynomials.addPolynomials(xnkmx, rx);
         return cx;
     }
+    //tej metody dekodera nie wysyłaj, jest troche bardiej zła chyba
     public Polynomial decode(Polynomial cyx){
         //System.out.println("WEWNATRZ DEKODERA:::::");
         Generator generator = new Generator();
@@ -77,11 +79,11 @@ public class Encoder {
             }
         }
     }
+
+    //poprawny dekoder prosty
     public Polynomial simpleDecoder(Polynomial cyx){
         Generator generator = new Generator();
         Polynomial gx = new Polynomial(generator.polynomial_generator());
-        System.out.println("generujący:");
-        gx.show_polynomial();
         MathPolynomials mathPolynomials=new MathPolynomials();
         Polynomial cdx;
         //wielomian cy(x) - odebrany wielomian
@@ -92,25 +94,22 @@ public class Encoder {
 
         int t = 6;
         int k = 19;
+
         for(int i = 0; i < k + 1; i++){
             Polynomial sx = mathPolynomials.moduloPol(cyx,gx);
-            System.out.println("sx:");
-            sx.show_polynomial();
             int ws = sx.hammingWeight();
-            System.out.println("hamming: " + ws);
             if(ws <= t){
                 cdx = mathPolynomials.addPolynomials(cyx, sx);
-                System.out.println("cdx:");
-                cdx.show_polynomial();
                 for(int j = 0; j < i; j++){
-                    cdx.shiftPolynomial("L");
+                    cdx.shiftPolynomial("L"); //obraca z powrotem wielomian o tyle, o ile trzeba
                 }
                 return cdx;
             }else{
                 if(i == k){
+                    //na razie w przypadku braku możliwosci odkodowania metoda zwraca 0
                     return new Polynomial(new String[] {"A32"}, "element");
                 }else{
-                    cyx.shiftPolynomial("R");
+                    cyx.shiftPolynomial("R");//obraca o jeden w prawo
                 }
             }
         }

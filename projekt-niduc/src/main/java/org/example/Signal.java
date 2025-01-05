@@ -51,7 +51,7 @@ public class Signal {
         }
     }
 
-    String getValueV(){return valueV;}
-    String getValueD(){return valueD;}
-    String getValueE(){return valueE;}
+    public String getValueV(){return valueV;}
+    public String getValueD(){return valueD;}
+    public String getValueE(){return valueE;}
 }
