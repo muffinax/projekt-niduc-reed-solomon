@@ -24,7 +24,7 @@ public class MathPolynomials {
             //l - przechowuje wartość pierwszego indeksu "znaczącego" (najwyższa potęga , która różni się w obu wielomianach - lub 0 gdy wielomiany są równe)
             int l=p1.getPolynomial().length-1;
 
-            //szukanie "znaczącego" indeksu
+            //szukanie największego indeksu o różnej wartości
             while(Integer.parseInt(p1.getPolynomialSignal(l).getValueD())==Integer.parseInt(p2.getPolynomialSignal(l).getValueD())){
                 if(l==0)
                     return 0; //są równe
