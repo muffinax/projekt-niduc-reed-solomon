@@ -25,7 +25,7 @@ public class Main {
         //System.out.println();
 
 
-        tester.testLosowy(randomPoly(),100);
+//        tester.testLosowy(randomPoly(),100);
         tester.testWiazka(randomPoly(),1);
 
 

@@ -48,7 +48,6 @@ public class Tester {
                     int r = random.nextInt(31) + 1;
                     enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                 }
-
 //                System.out.println("\nPrzekłamany:");
 //                enc2.show_polynomial();
 //
@@ -71,7 +70,6 @@ public class Tester {
         Encoder encoder = new Encoder();
         MathPolynomials mathPolynomials = new MathPolynomials();
 
-
         //poprawne kodowanie
         System.out.println("Kodowany wielomian:");
         poly1.show_polynomial();
@@ -82,9 +80,9 @@ public class Tester {
         //wprowadzanie bledow
         Random random = new Random();
         HashSet<Integer> uniqueNumbers = new HashSet<>();
-        for (int j = 1; j <= t; j++) {
+        for (int j = 1; j <= 31; j++) {
 
-            System.out.println("\nIlość błędnych bitów: "+j);
+            System.out.println("\nIlość błędów: "+j);
 
             int poprawione = 0;
             int niePoprawione = 0;
@@ -93,11 +91,34 @@ public class Tester {
             for (int i = 0; i < samples; i++) {
                 Polynomial enc2 = new Polynomial(encoder.encode(poly1));
 
-                //losowanie na których bitach będzie wprowadzony blad
+                //losowanie na kjakiej wiazce beda wprowadzonye bledy
                 uniqueNumbers.clear();
-                while (uniqueNumbers.size() < j) {
+                if(j==1){
                     int ri = random.nextInt(31);
                     uniqueNumbers.add(ri);
+                } else if (j==31) {
+                    for(int x=0;x<31;x++){
+                        uniqueNumbers.add(x);
+                    }
+                } else if (j<5 || j==30) {           //długośc od 2 do 4 ma tylko 1 przerwe
+                    int rb = random.nextInt(31-j);  //rb - wartość pierwszego bitu wiązki
+                    while (uniqueNumbers.size()<j){
+                        int ri = random.nextInt(j+1)+rb;
+                        uniqueNumbers.add(ri);
+                    }
+                } else if (j<8 || j==29) {                   //długośc od 2 do 4 ma tylko 2 przerwy
+                    int rb = random.nextInt(30-j);  //rb - wartość pierwszego bitu wiązki
+                    while (uniqueNumbers.size()<j){
+                        int ri = random.nextInt(j+2)+rb;
+                        uniqueNumbers.add(ri);
+                    }
+                } else {                  //długośc od 2 do 4 ma tylko 3 przerwy (j<29)
+                    int rb = random.nextInt(29-j);  //rb - wartość pierwszego bitu wiązki
+                    while (uniqueNumbers.size()<j){
+                        int ri = random.nextInt(j+3)+rb;
+                        uniqueNumbers.add(ri);
+                    }
+
                 }
 
                 //wprowadzanie bledow na bity
