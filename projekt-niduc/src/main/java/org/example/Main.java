@@ -25,35 +25,35 @@ public class Main {
         //System.out.println();
 
 
-//        tester.testLosowy(randomPoly(),100);
-        tester.testWiazka(randomPoly(),1);
+  //      tester.testLosowy(randomPoly(),100);
+//        tester.testWiazka(randomPoly(),1);
 
 
 
-//        //PRZYKLAD DLA NIKODEMA
 //        //p(x) = x^2 + 2x + 3
-//        Polynomial p = new Polynomial(new String[]{"3", "2", "1"}, "decimal");
-//        System.out.print("Kodowany wielomian: ");
-//        p.show_polynomial();
-//        System.out.println();
-//        //zakodowany wielomian p(x)
-//        Polynomial encP = encoder.encode(p);
-//        System.out.print("Zakodowany wielomian: ");
-//        encP.show_polynomial();
-//        System.out.println();
-//        //zakłamanie wielomianu - dodanie bita w częsci informacyjnej
-//        encP = mathPolynomials.addPolynomials(
-//                encP,
-//                new Polynomial(
-//                        new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1"}, "decimal"));
-//        System.out.print("Zakłamany wielomian: ");
-//        encP.show_polynomial();
-//        System.out.println();
-//        //dekodowanie wielomianu
-//        Polynomial decP = encoder.simpleDecoder(p);
-//        System.out.print("Odkodowany wielomian: ");
-//        decP.show_polynomial();
-//        System.out.println();
+        Polynomial p = new Polynomial(new String[]{"3", "2", "1"}, "decimal");
+        Polynomial po = new Polynomial(generator.polynomial_generator());
+        System.out.print("Kodowany wielomian: ");
+        po.show_polynomial();
+        System.out.println();
+        //zakodowany wielomian p(x)
+        Polynomial encP = encoder.encode(po);
+        System.out.print("Zakodowany wielomian: ");
+        encP.show_polynomial();
+        System.out.println();
+        //zakłamanie wielomianu - dodanie bita w częsci informacyjnej
+        encP = mathPolynomials.addPolynomials(
+                encP,
+                new Polynomial(
+                        new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1"}, "decimal"));
+        System.out.print("Zakłamany wielomian: ");
+        encP.show_polynomial();
+        System.out.println();
+        //dekodowanie wielomianu
+        Polynomial decP = encoder.simpleDecoder(p);
+        System.out.print("Odkodowany wielomian: ");
+        decP.show_polynomial();
+        System.out.println();
 
     }
 

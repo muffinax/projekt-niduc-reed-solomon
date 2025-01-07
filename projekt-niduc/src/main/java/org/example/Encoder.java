@@ -94,10 +94,36 @@ public class Encoder {
 
         int t = 6;
         int k = 19;
+        int num = 0;
 
-        for(int i = 0; i < k + 1; i++){
+        while(true){
             Polynomial sx = mathPolynomials.moduloPol(cyx,gx);
+            System.out.println("syndrom: ");
+            sx.show_polynomial();
             int ws = sx.hammingWeight();
+            System.out.println("waga: " + ws);
+            if(ws <= t){
+                cdx = mathPolynomials.addPolynomials(cyx, sx);
+                for(int j = 0; j < num; j++){
+                    cdx.shiftPolynomial("L"); //obraca z powrotem wielomian o tyle, o ile trzeba
+                }
+                return cdx;
+            }else if(ws > t){
+                if(num == k){
+                    //na razie w przypadku braku możliwosci odkodowania metoda zwraca 0
+                    return new Polynomial(new String[] {"A32"}, "element");
+                }else if(num < k){
+                    cyx.shiftPolynomial("R");//obraca o jeden w prawo
+                    num++;
+                }
+            }
+        }
+        /*for(int i = 0; i < k + 1; i++){
+            Polynomial sx = mathPolynomials.moduloPol(cyx,gx);
+            System.out.println("syndrom: ");
+            sx.show_polynomial();
+            int ws = sx.hammingWeight();
+            System.out.println("waga: " + ws);
             if(ws <= t){
                 cdx = mathPolynomials.addPolynomials(cyx, sx);
                 for(int j = 0; j < i; j++){
@@ -113,6 +139,6 @@ public class Encoder {
                 }
             }
         }
-        return new Polynomial(new String[] {"A32"}, "element");
+        return new Polynomial(new String[] {"A32"}, "element");*/
     }
 }
