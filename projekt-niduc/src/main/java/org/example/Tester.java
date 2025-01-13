@@ -43,17 +43,17 @@ public class Tester {
 
                 //wprowadzanie bledow na bity
                 for (int x : uniqueNumbers) {
-//                    System.out.println(x);        //pokazuje jakie indeksy zostaly zmienione
+                    System.out.println(x);        //pokazuje jakie indeksy zostaly zmienione
 
                     int r = random.nextInt(31) + 1;
                     enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                 }
-//                System.out.println("\nPrzekłamany:");
-//                enc2.show_polynomial();
+                System.out.println("\nPrzekłamany:");
+                enc2.show_polynomial();
 //
                 Polynomial dec1 = encoder.decode(enc2);
-//                System.out.println("\nOdkodowany wielomian:");
-//                dec1.show_polynomial();
+                System.out.println("\nOdkodowany wielomian:");
+                dec1.show_polynomial();
 
                 if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                     poprawione++;

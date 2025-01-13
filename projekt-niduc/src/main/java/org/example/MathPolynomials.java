@@ -18,33 +18,33 @@ public class MathPolynomials {
         //gdy p1==p2 to zwraca wartość 0
         //gdy p1>p2 to zwraca wartość -1
         // gdy p1<p2 to zwraca wartość 1
+        int l = p2.getPolynomial().length-1;
 
-        //oba wielomiany mają tą samą długość
-        if(p1.getPolynomial().length==p2.getPolynomial().length){
-            //l - przechowuje wartość pierwszego indeksu "znaczącego" (najwyższa potęga , która różni się w obu wielomianach - lub 0 gdy wielomiany są równe)
-            int l=p1.getPolynomial().length-1;
-
-            //szukanie największego indeksu o różnej wartości
-            while(Integer.parseInt(p1.getPolynomialSignal(l).getValueD())==Integer.parseInt(p2.getPolynomialSignal(l).getValueD())){
-                if(l==0)
-                    return 0; //są równe
-                l--;
+        if(p1.getPolynomial().length!=p2.getPolynomial().length){
+            if(p1.getPolynomial().length>p2.getPolynomial().length){
+                for(int i=p1.getPolynomial().length-1;i>=p2.getPolynomial().length;i--){
+                    if(Integer.parseInt(p1.getPolynomialSignal(i).getValueD())>0)   return -1;
+                }
             }
-
-            //porównując wartości w najwyższej potędze, która się różni, możemy określić, który wilomian jest większy
-            if(Integer.parseInt(p1.getPolynomialSignal(l).getValueD())>Integer.parseInt(p2.getPolynomialSignal(l).getValueD()))
-                return -1; //wartość znaczącego indeksu większa w p1
-            else
-                return 1;  //wartość znaczącego indeksu większa w p2
+            else{
+                for(int i=p2.getPolynomial().length-1;i>=p1.getPolynomial().length;i--){
+                    if(Integer.parseInt(p2.getPolynomialSignal(i).getValueD())>0)   return 1;
+                }
+                l=p1.getPolynomial().length-1;
+            }
         }
 
-        //p1 ma x do wyższej potęgi, czyli większy
-        else if (p1.getPolynomial().length>p2.getPolynomial().length)
-            return -1;
+        //szukanie największego indeksu o różnej wartości
+        while(Integer.parseInt(p1.getPolynomialSignal(l).getValueD())==Integer.parseInt(p2.getPolynomialSignal(l).getValueD())){
+            if(l==0)    return 0; //są równe
+            l--;
+        }
 
-        //p2 ma x do wyższej potęgi, czyli większy
+        //porównując wartości w najwyższej potędze, która się różni, możemy określić, który wilomian jest większy
+        if(Integer.parseInt(p1.getPolynomialSignal(l).getValueD())>Integer.parseInt(p2.getPolynomialSignal(l).getValueD()))
+            return -1; //wartość znaczącego indeksu większa w p1
         else
-            return 1;
+            return 1;  //wartość znaczącego indeksu większa w p2
     }
 
     //-------------------------------------------------------------------------------------------------
@@ -98,35 +98,14 @@ public class MathPolynomials {
         int l;  //l1 - dłuższy wielomian
         String[] result;
 
-        if(comparePol(p1,p2)==0)   //gdy są równe zwraca wartość 0
-            return new Polynomial(new String[] {"00000"}, "vector");
-
-        //jeżeli długość wielomianu jest ta sama i najwyższe potęgi się zerują, to zmniejsza wielomian, by nie było niepotrzebnych zer
-        if(p1.getPolynomial().length==p2.getPolynomial().length)
-        {
-            l=p1.getPolynomial().length-1;
-            while(Integer.parseInt(p1.getPolynomialSignal(l).getValueD())==Integer.parseInt(p2.getPolynomialSignal(l).getValueD()))
-                l--;
-            l++;
-
-            //dodawanie:
-            result = new String[l];
-            for(int i=0;i<l;i++)
-                result[i]=addition(p1.getPolynomialSignal(i),p2.getPolynomialSignal(i)).getValueV();
-        }
-        //dłuższy wielomian (p1)
-        else if(p1.getPolynomial().length>p2.getPolynomial().length) {
-            //dodawanie:
+        if(p1.getPolynomial().length>p2.getPolynomial().length){
             result = new String[p1.getPolynomial().length];
             for(int i=0;i<p1.getPolynomial().length;i++){
                 if(i<p2.getPolynomial().length)   result[i]=addition(p1.getPolynomialSignal(i),p2.getPolynomialSignal(i)).getValueV();
                 else result[i]=p1.getPolynomialSignal(i).getValueV();
             }
         }
-
-        //dłuższy wielomian (p2)
         else {
-            //dodawanie:
             result = new String[p2.getPolynomial().length];
             for(int i=0;i<p2.getPolynomial().length;i++){
                 if(i<p1.getPolynomial().length)   result[i]=addition(p1.getPolynomialSignal(i),p2.getPolynomialSignal(i)).getValueV();

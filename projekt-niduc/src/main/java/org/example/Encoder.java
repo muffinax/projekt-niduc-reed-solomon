@@ -141,4 +141,17 @@ public class Encoder {
         }
         return new Polynomial(new String[] {"A32"}, "element");*/
     }
+
+    //rozszerza wielomian o miejsca zerowe
+    private Polynomial make19(Polynomial pol){
+        String[] r=new String[19];
+        if (pol.getPolynomial().length < 16) {
+            for (int i=0;i<19;i++){
+                if(i>=pol.getPolynomial().length)   r[i]="0";
+                else r[i]=pol.getPolynomialSignal(i).getValueD();
+            }
+            return new Polynomial(r,"decimal");
+        }
+        else return pol;
+    }
 }
