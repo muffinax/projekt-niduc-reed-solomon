@@ -24,8 +24,9 @@ public class Main {
         //poly2.show_polynomial();
         //System.out.println();
 
+        Polynomial randomP =new Polynomial(randomPoly());
 
-        tester.testLosowy(randomPoly(),100);
+        tester.testLosowy1(randomP,100);
 //        tester.testWiazka(randomPoly(),1);
 
 

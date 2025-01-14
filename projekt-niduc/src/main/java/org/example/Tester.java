@@ -7,7 +7,53 @@ public class Tester {
     private int t=6;
     public Tester(){}
 
-    //TESTY PROSTEGO DEKODERA
+    //TEST DLA 1 BLEDU
+    public void testLosowy1(Polynomial poly1, int samples) {
+        Encoder encoder = new Encoder();
+        MathPolynomials mathPolynomials = new MathPolynomials();
+
+        int poprawione = 0;
+        int niePoprawione = 0;
+        int zlePoprawione = 0;
+
+        //poprawne kodowanie
+        System.out.println("Kodowany wielomian:");
+        poly1.show_polynomial();
+        Polynomial enc1 = encoder.encode(poly1);
+        System.out.println("\nZakodowany wielomian:");
+        enc1.show_polynomial();
+
+        //wprowadzanie bledow
+        Random random = new Random();
+        HashSet<Integer> uniqueNumbers = new HashSet<>();
+
+        for(int i=0;i<31;i++){
+            Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+            System.out.println(i);        //pokazuje jakie indeksy zostaly zmienione
+
+            int r = random.nextInt(31) + 1;
+            enc2.getPolynomialSignal(i).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(i), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+            System.out.println("\nPrzekłamany:");
+            enc2.show_polynomial();
+//
+            Polynomial dec1 = encoder.simpleDecoder(enc2);
+            System.out.println("\nOdkodowany wielomian:");
+            dec1.show_polynomial();
+
+            if (mathPolynomials.comparePol(dec1, enc1) == 0) {
+                poprawione++;
+                System.out.println("poprawione");
+            } else if (mathPolynomials.comparePol(enc2, dec1) == 0) {
+                niePoprawione++;
+                System.out.println("niepoprawione");
+            } else zlePoprawione++;
+        }
+        System.out.println("poprawione: " + poprawione + "\nZLEpoprawione: " + zlePoprawione + "\nNIEpoprawione: " + niePoprawione);
+
+
+    }
+
+    //TESTY PROSTEGO DEKODERA 3-6
     public void testLosowy(Polynomial poly1, int samples) {
         Encoder encoder = new Encoder();
         MathPolynomials mathPolynomials = new MathPolynomials();
@@ -51,14 +97,16 @@ public class Tester {
                 System.out.println("\nPrzekłamany:");
                 enc2.show_polynomial();
 //
-                Polynomial dec1 = encoder.decode(enc2);
+                Polynomial dec1 = encoder.simpleDecoder(enc2);
                 System.out.println("\nOdkodowany wielomian:");
                 dec1.show_polynomial();
 
                 if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                     poprawione++;
+                    System.out.println("poprawione");
                 } else if (mathPolynomials.comparePol(enc2, dec1) == 0) {
                     niePoprawione++;
+                    System.out.println("niepoprawione");
                 } else zlePoprawione++;
 
             }
@@ -132,7 +180,7 @@ public class Tester {
 //                System.out.println("\nPrzekłamany:");
 //                enc2.show_polynomial();
 //
-                Polynomial dec1 = encoder.decode(enc2);
+                Polynomial dec1 = encoder.simpleDecoder(enc2);
 //                System.out.println("\nOdkodowany wielomian:");
 //                dec1.show_polynomial();
 
