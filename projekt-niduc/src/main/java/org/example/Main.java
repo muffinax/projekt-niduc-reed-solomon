@@ -26,12 +26,12 @@ public class Main {
 
         Polynomial randomP =new Polynomial(randomPoly());
 
-        tester.testLosowy1(randomP,100);
+        tester.testLosowy1(randomP);
 //        tester.testWiazka(randomPoly(),1);
 
 
 
-////        //p(x) = x^2 + 2x + 3
+//        //p(x) = x^2 + 2x + 3
 //        Polynomial p = new Polynomial(new String[]{"3", "2", "1"}, "decimal");
 //        Polynomial po = new Polynomial(generator.polynomial_generator());
 //        System.out.print("Kodowany wielomian: ");

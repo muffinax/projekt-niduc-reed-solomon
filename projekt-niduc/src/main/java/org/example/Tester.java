@@ -8,7 +8,7 @@ public class Tester {
     public Tester(){}
 
     //TEST DLA 1 BLEDU
-    public void testLosowy1(Polynomial poly1, int samples) {
+    public void testLosowy1(Polynomial poly1) {
         Encoder encoder = new Encoder();
         MathPolynomials mathPolynomials = new MathPolynomials();
 
@@ -36,7 +36,7 @@ public class Tester {
             System.out.println("\nPrzekłamany:");
             enc2.show_polynomial();
 //
-            Polynomial dec1 = encoder.simpleDecoder(enc2);
+            Polynomial dec1 = encoder.decode(enc2);
             System.out.println("\nOdkodowany wielomian:");
             dec1.show_polynomial();
 
