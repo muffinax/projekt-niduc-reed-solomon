@@ -43,10 +43,10 @@ public class Encoder {
 
         while(true){
             Polynomial sx = mathPolynomials.moduloPol(cyx,gx);
-            System.out.println("syndrom: ");
-            sx.show_polynomial();
+//            System.out.println("syndrom: ");
+//            sx.show_polynomial();
             int ws = sx.hammingWeight();
-            System.out.println("waga: " + ws);
+//            System.out.println("waga: " + ws);
             if(ws <= t){
                 cdx = mathPolynomials.addPolynomials(cyx, sx);
                 for(int j = 0; j < num; j++){

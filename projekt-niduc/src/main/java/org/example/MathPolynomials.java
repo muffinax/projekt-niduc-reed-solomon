@@ -94,7 +94,7 @@ public class MathPolynomials {
 
     //-------------------------------------------------------------------------------------------------
     //4. DODAWANIE WIELOMIANÓW
-    Polynomial addPolynomials(Polynomial p1, Polynomial p2){
+    public Polynomial addPolynomials(Polynomial p1, Polynomial p2){
         int l;  //l1 - dłuższy wielomian
         String[] result;
 
@@ -118,7 +118,7 @@ public class MathPolynomials {
 
     //-------------------------------------------------------------------------------------------------
     //5. MNOŻENIE WIELOMIANÓW
-    Polynomial mulPolynomials(Polynomial p1, Polynomial p2){
+    public Polynomial mulPolynomials(Polynomial p1, Polynomial p2){
         //długość tablicy to suma długości mnożonych wielomianów
         String[] value = new String[p1.getPolynomial().length+p2.getPolynomial().length-1];
 
@@ -147,9 +147,18 @@ public class MathPolynomials {
     //6. OBLICZANIE RESZTY Z DZIELENIA p1 PRZEZ p2 (p1%p2)
     //!!! p2 MUSI MIEC WARTOSC SYGNALU 1 DLA x O NAJWIĘKSZEJ POTĘDZE (p2[length-1]==1) !!!
 
-    Polynomial moduloPol(Polynomial p1,Polynomial p2){
+    public Polynomial moduloPol(Polynomial p1,Polynomial p2){
+        int l1=p1.getPolynomial().length-1,l2=p2.getPolynomial().length-1;
+
+        while(p1.getPolynomialSignal(l1).getValueD().equals("0")){
+            l1--;
+        }
+        while(p2.getPolynomialSignal(l2).getValueD().equals("0")){
+            l2--;
+        }
+
         //sprawdza, czy dzielnik jest poprawny
-        if(p2.getPolynomialSignal((p2.getPolynomial().length)-1).getValueD().equals("1")){
+        if(p2.getPolynomialSignal(l2).getValueD().equals("1")){
             //gdy są takie same reszta = 0
             if(comparePol(p1,p2)==0){
                 return new Polynomial(new String[]{"0"},"decimal");
@@ -164,20 +173,19 @@ public class MathPolynomials {
                 String[] sresult;       //wynik częściowego dzielenia w typie String
 
                 //warunek oblicza maksymalną potęgę x potrzebną do dzielenia
-                for(int i=p1.getPolynomial().length-p2.getPolynomial().length;i>=0;i--){
-                    sresult=new String[i+1];    //tablica ma długość znaczącego x
-
-                    Polynomial test=new Polynomial();
+                for(int i=l1-l2;i>=0;i--){
+                    sresult=new String[i+1];    //tablica ma długość znaczącego x i l2
 
                     //nadajemy wartość sresult i result wartosc x do potegi dzielnika
-                    for (int j=0;j<i;j++)   sresult[j]="0";
-                    sresult[i]=p1.getPolynomialSignal(p1.getPolynomial().length-1).getValueD();
+                    Arrays.fill(sresult, "0");
+                    sresult[i]=p1.getPolynomialSignal(l1).getValueD();
                     result = new Polynomial(sresult,"decimal");
 
                     //sumuje największy możliwy element - w ten sposób wielomian się zmniejsza
-                    if(sresult.length+p2.getPolynomial().length-1==p1.getPolynomial().length)
+                    if(sresult.length+l2==l1+1){
                         p1=addPolynomials(p1,mulPolynomials(result,p2));
-
+                        l1--;
+                    }
                 }
                 return p1;
             }
