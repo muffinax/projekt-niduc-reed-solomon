@@ -144,17 +144,91 @@ public class Encoder {
             }
         }
     }
+    //Dekoder pełny
+    public Polynomial fullDecoder(Polynomial cyx){
+        Generator generator = new Generator();
+        Polynomial gx = new Polynomial(generator.polynomial_generator());
+        MathPolynomials mathPolynomials = new MathPolynomials();
+        //cyx = make19(cyx); // Dopasowuje długość wielomianu do 19
+        //Polynomial cdx;
 
-    //rozszerza wielomian o miejsca zerowe
-    private Polynomial make19(Polynomial pol){
-        String[] r=new String[19];
-        if (pol.getPolynomial().length < 16) {
-            for (int i=0;i<19;i++){
-                if(i>=pol.getPolynomial().length)   r[i]="0";
-                else r[i]=pol.getPolynomialSignal(i).getValueD();
-            }
-            return new Polynomial(r,"decimal");
+        // Krok 1: Oblicz syndrom s(x)
+        Polynomial sx = mathPolynomials.moduloPol(cyx, gx);
+        System.out.println("Syndrom: ");
+        sx.show_polynomial();
+
+        // Jeśli syndrom jest zerowy, brak błędów
+        if (sx.hammingWeight() == 0) {
+            return cyx; // Brak błędów
         }
-        else return pol;
+
+        // Krok 2: Algorytm Berlekampa-Masseya (wyznaczanie wielomianu Lambda)
+        Polynomial lambda = berlekampMassey(sx);
+        System.out.println("Wielomian Lambda (lokalizujący błędy): ");
+        lambda.show_polynomial();
+
+        // Krok 3: Wyznaczanie błędów za pomocą Lambda
+        Polynomial errorLocator = evaluateErrors(lambda, cyx.getPolynomial().length);
+        System.out.println("Błędy (pozycje): ");
+        errorLocator.show_polynomial();
+
+        // Krok 4: Korekcja błędów
+        Polynomial corrected = correctErrors(cyx, errorLocator);
+        System.out.println("Odkodowany wielomian: ");
+        corrected.show_polynomial();
+
+        return corrected;
+    }
+
+    // Algorytm Berlekampa-Masseya
+    private Polynomial berlekampMassey(Polynomial sx){
+        Polynomial lambda = new Polynomial(new String[] {"A32"}, "element"); // Lambda(x) = 1
+        Polynomial b = new Polynomial(new String[] {"A32"}, "element"); // B(x) = 1
+        int l = 0; // Początkowy stopień lambda
+        Signal delta = new Signal("A32", "element"); // Delta = 1 w GF(2^5)
+
+        for(int i = 0; i < sx.getPolynomial().length; i++){
+            delta = calculateDiscrepancy(lambda, sx, i); // Delta(i) = s(i) - lambda(i)
+            if(!delta.getValueE().equals("A32")){ // Jeśli delta != 0
+                Polynomial t = lambda; // Kopia lambda
+                Polynomial deltaB = mathPolynomials.mulPolynomials(b, new Polynomial(new String[] {delta.getValueE()}, "element"));
+                lambda = mathPolynomials.addPolynomials(lambda, deltaB); // Lambda = Lambda + Delta * B
+                if(2 * l <= i){
+                    l = i + 1 - l; // Aktualizacja stopnia Lambda
+                    b = mathPolynomials.mulPolynomials(t, new Polynomial(new String[] {delta.getValueE()}, "element"));
+                }
+            }
+            b.shiftPolynomial("L"); // Przesunięcie B w lewo
+        }
+        return lambda;
+    }
+
+    // Wyznaczanie pozycji błędów (poprawiona wersja bez Chien Search)
+    private Polynomial evaluateErrors(Polynomial lambda, int length){
+        Signal[] errorPositions = new Signal[length];
+        for(int i = 0; i < length; i++){
+            Signal xi = new Signal(String.valueOf(i), "decimal");
+            Polynomial evaluation = mathPolynomials.mulPolynomials(lambda, new Polynomial(new String[] {xi.getValueE()}, "element"));
+            if(evaluation.hammingWeight() == 0){
+                errorPositions[i] = new Signal("1", "decimal"); // Błąd w pozycji i
+            } else{
+                errorPositions[i] = new Signal("0", "decimal");
+            }
+        }
+        return new Polynomial(errorPositions, "decimal");
+    }
+
+    // Korekcja błędów
+    private Polynomial correctErrors(Polynomial cyx, Polynomial errorLocator){
+        Signal[] corrected = new Signal[cyx.getPolynomial().length];
+        for(int i = 0; i < cyx.getPolynomial().length; i++){
+            if(errorLocator.getPolynomialSignal(i).getValueD().equals("1")){
+                // Odwróć wartość w pozycji błędu
+                corrected[i] = new Signal("A32", "element"); // Przykład: A32 oznacza 0 w GF(2^m)
+            } else{
+                corrected[i] = cyx.getPolynomialSignal(i); // Przepisz poprawny element
+            }
+        }
+        return new Polynomial(corrected, "element");
     }
 }

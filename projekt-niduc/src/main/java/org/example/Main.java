@@ -24,7 +24,7 @@ public class Main {
 
         Polynomial randomP =new Polynomial(randomPoly());
         randomP.show_polynomial();
-
+        enoder.fullDecoder(randomPoly());
 
         tester.testLosowy1(randomP);        //nie działa dla wielomianów o długości 16-18 (15-17)
 //        tester.testLosowy2(randomP);
