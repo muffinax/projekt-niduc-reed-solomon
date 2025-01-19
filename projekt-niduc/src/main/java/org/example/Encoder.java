@@ -149,7 +149,7 @@ public class Encoder {
         Generator generator = new Generator();
         Polynomial gx = new Polynomial(generator.polynomial_generator());
         MathPolynomials mathPolynomials = new MathPolynomials();
-        //cyx = make19(cyx); // Dopasowuje długość wielomianu do 19
+        cyx = make19(cyx); // Dopasowuje długość wielomianu do 19
         //Polynomial cdx;
 
         // Krok 1: Oblicz syndrom s(x)
@@ -182,6 +182,7 @@ public class Encoder {
 
     // Algorytm Berlekampa-Masseya
     private Polynomial berlekampMassey(Polynomial sx){
+        MathPolynomials mathPolynomials=new MathPolynomials();
         Polynomial lambda = new Polynomial(new String[] {"A32"}, "element"); // Lambda(x) = 1
         Polynomial b = new Polynomial(new String[] {"A32"}, "element"); // B(x) = 1
         int l = 0; // Początkowy stopień lambda
@@ -205,6 +206,7 @@ public class Encoder {
 
     // Wyznaczanie pozycji błędów (poprawiona wersja bez Chien Search)
     private Polynomial evaluateErrors(Polynomial lambda, int length){
+        MathPolynomials mathPolynomials=new MathPolynomials();
         Signal[] errorPositions = new Signal[length];
         for(int i = 0; i < length; i++){
             Signal xi = new Signal(String.valueOf(i), "decimal");
@@ -230,5 +232,24 @@ public class Encoder {
             }
         }
         return new Polynomial(corrected, "element");
+    }
+
+
+
+
+
+
+
+    //rozszerza wielomian o miejsca zerowe
+    private Polynomial make19(Polynomial pol) {
+        String[] r = new String[19];
+        if (pol.getPolynomial().length < 16) {
+            for (int i = 0; i < 19; i++) {
+                if (i >= pol.getPolynomial().length) r[i] = "0";
+                else r[i] = pol.getPolynomialSignal(i).getValueD();
+            }
+            return new Polynomial(r, "decimal");
+        }
+        else return pol;
     }
 }
