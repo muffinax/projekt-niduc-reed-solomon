@@ -23,12 +23,13 @@ public class Main {
 
 
         Polynomial randomP =new Polynomial(randomPoly());
-//        randomP.show_polynomial();
+        randomP.show_polynomial();
 
-//        tester.testLosowy1(randomP);        //nie działa dla wielomianów o długości 16-18 (15-17)
+
+        tester.testLosowy1(randomP);        //nie działa dla wielomianów o długości 16-18 (15-17)
 //        tester.testLosowy2(randomP);
-//        tester.testLosowy36(randomP,500);
-        tester.testWiazka(randomP,10,1);
+//        tester.testLosowy36(randomP,5);
+//        tester.testWiazka(randomP,10,10);
 
 
 
