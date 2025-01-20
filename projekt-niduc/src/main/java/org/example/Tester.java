@@ -28,19 +28,17 @@ public class Tester {
 
             int r = random.nextInt(31) + 1;
             enc2.getPolynomialSignal(i).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(i), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
-            System.out.println("\nPrzekłamany:");
-            enc2.show_polynomial();
+//            System.out.println("\nPrzekłamany:");
+//            enc2.show_polynomial();
 
             Polynomial dec1 = encoder.simpleDecoder(enc2);
-            System.out.println("\nOdkodowany wielomian:");
-            dec1.show_polynomial();
+//            System.out.println("\nOdkodowany wielomian:");
+//            dec1.show_polynomial();
 
             if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                 poprawione++;
-                System.out.println("poprawione");
             } else if (mathPolynomials.comparePol(enc2, dec1) == 0) {
                 niePoprawione++;
-                System.out.println("niepoprawione");
             } else zlePoprawione++;
         }
         System.out.println("\nIlość błędów: 1\npoprawione: " + poprawione + "\nZLEpoprawione: " + zlePoprawione + "\nNIEpoprawione: " + niePoprawione);
@@ -66,8 +64,8 @@ public class Tester {
         for(int i=0;i<30;i++){
             for (int j=i+1;j<31;j++){
                 Polynomial enc2 = new Polynomial(encoder.encode(poly1));
-                System.out.println(i);        //pokazuje jakie indeksy zostaly zmienione
-                System.out.println(j);        //pokazuje jakie indeksy zostaly zmienione
+//                System.out.println(i);        //pokazuje jakie indeksy zostaly zmienione
+//                System.out.println(j);        //pokazuje jakie indeksy zostaly zmienione
 
                 //dawanie losowej wartości na odpowiednie indeksy
                 enc2.getPolynomialSignal(i).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(i), new Signal(String.valueOf(random.nextInt(31) + 1), "decimal")).getValueD(), "decimal");
@@ -82,10 +80,8 @@ public class Tester {
 
                 if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                     poprawione++;
-                    System.out.println("poprawione");
                 } else if (mathPolynomials.comparePol(enc2, dec1) == 0) {
                     niePoprawione++;
-                    System.out.println("niepoprawione");
                 } else zlePoprawione++;
             }
         }
@@ -100,18 +96,16 @@ public class Tester {
 
 
         //poprawne kodowanie
-        System.out.println("Kodowany wielomian:");
-        poly1.show_polynomial();
+//        System.out.println("Kodowany wielomian:");
+//        poly1.show_polynomial();
         Polynomial enc1 = encoder.encode(poly1);
-        System.out.println("\nZakodowany wielomian:");
-        enc1.show_polynomial();
+//        System.out.println("\nZakodowany wielomian:");
+//        enc1.show_polynomial();
 
         //wprowadzanie bledow
         Random random = new Random();
         HashSet<Integer> uniqueNumbers = new HashSet<>();
         for (int j = 3; j <= t; j++) {
-
-            System.out.println("\nIlość błędnych bitów: "+j);
 
             int poprawione = 0;
             int niePoprawione = 0;
@@ -129,24 +123,22 @@ public class Tester {
 
                 //wprowadzanie bledow na bity
                 for (int x : uniqueNumbers) {
-                    System.out.println(x);        //pokazuje jakie indeksy zostaly zmienione
+//                    System.out.println(x);        //pokazuje jakie indeksy zostaly zmienione
 
                     int r = random.nextInt(31) + 1;
                     enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                 }
-                System.out.println("\nPrzekłamany:");
-                enc2.show_polynomial();
+//                System.out.println("\nPrzekłamany:");
+//                enc2.show_polynomial();
 //
                 Polynomial dec1 = encoder.simpleDecoder(enc2);
-                System.out.println("\nOdkodowany wielomian:");
-                dec1.show_polynomial();
+//                System.out.println("\nOdkodowany wielomian:");
+//                dec1.show_polynomial();
 
                 if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                     poprawione++;
-                    System.out.println("poprawione");
                 } else if (mathPolynomials.comparePol(enc2, dec1) == 0) {
                     niePoprawione++;
-                    System.out.println("niepoprawione");
                 } else zlePoprawione++;
 
             }
@@ -165,11 +157,11 @@ public class Tester {
             MathPolynomials mathPolynomials = new MathPolynomials();
 
             //poprawne kodowanie
-            System.out.println("Kodowany wielomian:");
-            poly1.show_polynomial();
+//            System.out.println("Kodowany wielomian:");
+//            poly1.show_polynomial();
             Polynomial enc1 = encoder.encode(poly1);
-            System.out.println("\nZakodowany wielomian:");
-            enc1.show_polynomial();
+//            System.out.println("\nZakodowany wielomian:");
+//            enc1.show_polynomial();
 
             //wprowadzanie bledow
             Random random = new Random();
@@ -210,30 +202,30 @@ public class Tester {
                             rb = 0;  //rb - wartość pierwszego bitu wiązki
                         }
 
-                        while (uniqueNumbers.size()<=p){
-                            int ri = random.nextInt(j+p+1)+rb;
+                        while (uniqueNumbers.size()<p){
+                            int ri = random.nextInt(j+p)+rb;
                             uniqueNumbers.add(ri);
                         }
 
-                        for(int x=rb;x<j+p+1;x++){
+                        for(int x=rb;x<j+p+rb;x++){
                             if(!uniqueNumbers.contains(x))    bityBledow.add(x);
                         }
                     }
 
                     //wprowadzanie bledow na bity
                     for (int x : bityBledow) {
-                    System.out.println(x);        //pokazuje jakie indeksy zostaly zmienione
+//                    System.out.println(x);        //pokazuje jakie indeksy zostaly zmienione
 
                         int r = random.nextInt(31) + 1;
                         enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                     }
 
-                System.out.println("\nPrzekłamany:");
-                enc2.show_polynomial();
+//                System.out.println("\nPrzekłamany:");
+//                enc2.show_polynomial();
 //
                     Polynomial dec1 = encoder.simpleDecoder(enc2);
-                System.out.println("\nOdkodowany wielomian:");
-                dec1.show_polynomial();
+//                System.out.println("\nOdkodowany wielomian:");
+//                dec1.show_polynomial();
 
                     if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                         poprawione++;

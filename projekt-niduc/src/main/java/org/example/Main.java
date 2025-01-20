@@ -24,12 +24,12 @@ public class Main {
 
         Polynomial randomP =new Polynomial(randomPoly());
         randomP.show_polynomial();
-        encoder.fullDecoder(randomPoly());
+//        encoder.fullDecoder(randomPoly());
 
-        tester.testLosowy1(randomP);        //nie działa dla wielomianów o długości 16-18 (15-17)
+//        tester.testLosowy1(randomP);        //nie działa dla wielomianów o długości 16-18 (15-17)
 //        tester.testLosowy2(randomP);
-//        tester.testLosowy36(randomP,5);
-//        tester.testWiazka(randomP,10,10);
+//        tester.testLosowy36(randomP,800);
+        tester.testWiazka(randomP,20,800);
 
 
 
