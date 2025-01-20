@@ -20,6 +20,16 @@ public class Polynomial {
         this.polynomial[0]=new Signal("0", "decimal");
     }
 
+    public Polynomial(Signal[] signals){
+        if(signals == null || signals.length == 0){
+            System.out.println("Pusta tablica.");
+            this.polynomial = new Signal[1];
+            this.polynomial[0] = new Signal("0", "decimal");
+        } else{
+            this.polynomial = signals.clone(); // Kopiuje tablicę sygnałów
+        }
+    }
+
     //wypisuje wielomian w każdym możliwym zapisie
     void show_polynomial(){
         for(int i=polynomial.length-1;i>=0;i--){
