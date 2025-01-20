@@ -158,7 +158,7 @@ public class Encoder {
         sx.show_polynomial();
 
         // Jeśli syndrom jest zerowy, brak błędów
-        if (sx.hammingWeight() == 0) {
+        if(sx.hammingWeight() == 0) {
             return cyx; // Brak błędów
         }
 
@@ -217,28 +217,33 @@ public class Encoder {
                 errorPositions[i] = new Signal("0", "decimal");
             }
         }
-        return new Polynomial(errorPositions, "decimal");
+        return new Polynomial(errorPositions);
     }
 
     // Korekcja błędów
     private Polynomial correctErrors(Polynomial cyx, Polynomial errorLocator){
         Signal[] corrected = new Signal[cyx.getPolynomial().length];
         for(int i = 0; i < cyx.getPolynomial().length; i++){
-            if(errorLocator.getPolynomialSignal(i).getValueD().equals("1")){
-                // Odwróć wartość w pozycji błędu
+            if(errorLocator.getPolynomialSignal(i).getValueD().equals("1")){ // Odwróć wartość w pozycji błędu
                 corrected[i] = new Signal("A32", "element"); // Przykład: A32 oznacza 0 w GF(2^m)
             } else{
                 corrected[i] = cyx.getPolynomialSignal(i); // Przepisz poprawny element
             }
         }
-        return new Polynomial(corrected, "element");
+        return new Polynomial(corrected);
     }
-
-
-
-
-
-
+    private Signal calculateDiscrepancy(Polynomial lambda, Signal[] syndromes, int k){
+        MathPolynomials mathPolynomials = new MathPolynomials(); // Operacje w GF(2^m)
+        Signal discrepancy = syndromes[k]; // S_k jako baza
+        for(int i = 1; i < lambda.getPolynomial().length; i++){
+            if(k - i >= 0){
+                Signal lambdaCoeff = lambda.getPolynomialSignal(i); // Współczynnik Λ_i
+                Signal syndromeCoeff = syndromes[k - i]; // Syndrom S_{k-i}
+                discrepancy = mathPolynomials.addition(discrepancy, mathPolynomials.multiplication(lambdaCoeff, syndromeCoeff));
+            }
+        }
+        return discrepancy; // Wynikowa niezgodność δ
+    }
 
     //rozszerza wielomian o miejsca zerowe
     private Polynomial make19(Polynomial pol) {
