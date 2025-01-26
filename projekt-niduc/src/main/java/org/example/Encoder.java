@@ -189,7 +189,7 @@ public class Encoder {
         Signal delta = new Signal("A32", "element"); // Delta = 1 w GF(2^5)
 
         for(int i = 0; i < sx.getPolynomial().length; i++){
-            delta = calculateDiscrepancy(lambda, sx, i); // Delta(i) = s(i) - lambda(i)
+            delta = calculateDiscrepancy(lambda, sx.getPolynomial(), i); // Delta(i) = s(i) - lambda(i)
             if(!delta.getValueE().equals("A32")){ // Jeśli delta != 0
                 Polynomial t = lambda; // Kopia lambda
                 Polynomial deltaB = mathPolynomials.mulPolynomials(b, new Polynomial(new String[] {delta.getValueE()}, "element"));
