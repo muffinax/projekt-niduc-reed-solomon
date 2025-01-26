@@ -29,7 +29,7 @@ public class Main {
 //        tester.testLosowy1(randomP);        //nie działa dla wielomianów o długości 16-18 (15-17)
 //        tester.testLosowy2(randomP);
 //        tester.testLosowy36(randomP,800);
-        tester.testWiazka(randomP,20,800);
+        tester.testWiazka(randomP,12);
 
 
 
