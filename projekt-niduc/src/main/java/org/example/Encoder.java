@@ -1,7 +1,6 @@
 package org.example;
 
 public class Encoder {
-    //chyba poprawny (już zwątpiłam) koder:
     public Polynomial encode(Polynomial message){
         Generator generator = new Generator();
         Polynomial generator_poly = new Polynomial(generator.polynomial_generator());
@@ -43,10 +42,7 @@ public class Encoder {
 
         while(true){
             Polynomial sx = mathPolynomials.moduloPol(cyx,gx);
-//            System.out.println("syndrom: ");
-//            sx.show_polynomial();
             int ws = sx.hammingWeight();
-//            System.out.println("waga: " + ws);
             if(ws <= t){
                 cdx = mathPolynomials.addPolynomials(cyx, sx);
                 for(int j = 0; j < num; j++){
@@ -55,7 +51,7 @@ public class Encoder {
                 return cdx;
             }else if(ws > t){
                 if(num == k){
-                    //na razie w przypadku braku możliwosci odkodowania metoda zwraca 0
+                    //w przypadku braku możliwosci odkodowania metoda zwraca 0
                     return new Polynomial(new String[] {"A32"}, "element");
                 }else if(num < k){
                     cyx.shiftPolynomial("R");//obraca o jeden w prawo
@@ -63,28 +59,6 @@ public class Encoder {
                 }
             }
         }
-        /*for(int i = 0; i < k + 1; i++){
-            Polynomial sx = mathPolynomials.moduloPol(cyx,gx);
-            System.out.println("syndrom: ");
-            sx.show_polynomial();
-            int ws = sx.hammingWeight();
-            System.out.println("waga: " + ws);
-            if(ws <= t){
-                cdx = mathPolynomials.addPolynomials(cyx, sx);
-                for(int j = 0; j < i; j++){
-                    cdx.shiftPolynomial("L"); //obraca z powrotem wielomian o tyle, o ile trzeba
-                }
-                return cdx;
-            }else{
-                if(i == k){
-                    //na razie w przypadku braku możliwosci odkodowania metoda zwraca 0
-                    return new Polynomial(new String[] {"A32"}, "element");
-                }else{
-                    cyx.shiftPolynomial("R");//obraca o jeden w prawo
-                }
-            }
-        }
-        return new Polynomial(new String[] {"A32"}, "element");*/
     }
 
     //Dekoder pełny
