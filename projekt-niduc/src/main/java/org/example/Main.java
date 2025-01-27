@@ -7,7 +7,6 @@ public class Main {
     public static void main(String[] args) {
 
         Tester tester=new Tester();
-        Coder coder = new Coder();
         Encoder encoder = new Encoder();
         Polynomial poly1 = new Polynomial(new String[]{"A12", "A09", "A22","A00","A32"}, "element");
         Polynomial poly12 = new Polynomial(new String[]{"A32", "A01", "A00","A32"}, "element");
@@ -17,8 +16,7 @@ public class Main {
         Generator generator = new Generator();
         Polynomial generator_poly = new Polynomial(generator.polynomial_generator());
         MathPolynomials mathPolynomials = new MathPolynomials();
-
-        //Coder.coder();
+        FullTester fullTester=new FullTester();
 
 
 
@@ -26,10 +24,10 @@ public class Main {
         randomP.show_polynomial();
 //        encoder.fullDecoder(randomPoly());
 
-//        tester.testLosowy1(randomP);
-//        tester.testLosowy2(randomP);
-//        tester.testLosowy36(randomP,800);
-        tester.testWiazka(randomP);
+//        tester.testLosowy(randomP,800);
+//        tester.testWiazka(randomP);
+
+        fullTester.testWiazka(randomP);
 
 
 

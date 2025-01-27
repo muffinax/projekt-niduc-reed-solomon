@@ -3,20 +3,21 @@ package org.example;
 import java.util.HashSet;
 import java.util.Random;
 
-public class Tester {
+public class FullTester {
     private int t = 6;
 
-    public Tester() {
+    public FullTester() {
     }
 
     //TESTY LOSOWE
     public void testLosowy(Polynomial poly1, int samples){
         System.out.println();
-        System.out.println("Testy losowe dla dekodera prostego:");
+        System.out.println("Testy losowe dla dekodera pełnego:");
         testLosowy1(poly1);
         testLosowy2(poly1);
         testLosowy36(poly1,samples);
     }
+
 
     //TEST DLA 1 BLEDU
     private void testLosowy1(Polynomial poly1) {
@@ -37,7 +38,7 @@ public class Tester {
             int r = random.nextInt(31) + 1;
             enc2.getPolynomialSignal(i).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(i), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
 
-            Polynomial dec1 = encoder.simpleDecoder(enc2);
+            Polynomial dec1 = encoder.fullDecoder(enc2);
 
             if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                 poprawione++;
@@ -68,7 +69,7 @@ public class Tester {
                 enc2.getPolynomialSignal(i).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(i), new Signal(String.valueOf(random.nextInt(31) + 1), "decimal")).getValueD(), "decimal");
                 enc2.getPolynomialSignal(j).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(i), new Signal(String.valueOf(random.nextInt(31) + 1), "decimal")).getValueD(), "decimal");
 
-                Polynomial dec1 = encoder.simpleDecoder(enc2);
+                Polynomial dec1 = encoder.fullDecoder(enc2);
 
                 if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                     poprawione++;
@@ -112,7 +113,7 @@ public class Tester {
                     enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                 }
 
-                Polynomial dec1 = encoder.simpleDecoder(enc2);
+                Polynomial dec1 = encoder.fullDecoder(enc2);
 
                 if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                     poprawione++;
@@ -126,7 +127,7 @@ public class Tester {
 
     public void testWiazka(Polynomial poly1) {
         System.out.println();
-        System.out.println("Testy grupowe dla dekodera prostego:");
+        System.out.println("Testy grupowe dla dekodera pełnego:");
 
         Encoder encoder = new Encoder();
         MathPolynomials mathPolynomials = new MathPolynomials();
@@ -155,7 +156,7 @@ public class Tester {
                     enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                 }
 
-                Polynomial dec1 = encoder.simpleDecoder(enc2);
+                Polynomial dec1 = encoder.fullDecoder(enc2);
 
                 if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
                 else niePoprawione++;
@@ -172,7 +173,7 @@ public class Tester {
                             }
                         }
 
-                        Polynomial dec1 = encoder.simpleDecoder(enc2);
+                        Polynomial dec1 = encoder.fullDecoder(enc2);
 
                         if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
                         else niePoprawione++;
@@ -182,7 +183,7 @@ public class Tester {
                         int r = random.nextInt(31) + 1;
                         enc2.getPolynomialSignal(p).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(p), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
 
-                        Polynomial dec1 = encoder.simpleDecoder(enc2);
+                        Polynomial dec1 = encoder.fullDecoder(enc2);
 
                         if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
                         else niePoprawione++;
@@ -197,7 +198,7 @@ public class Tester {
                                         enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                                     }
                                 }
-                                Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                Polynomial dec1 = encoder.fullDecoder(enc2);
 
                                 if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                                     poprawione++;
@@ -210,7 +211,7 @@ public class Tester {
                                 r = random.nextInt(31) + 1;
                                 enc2.getPolynomialSignal(j).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(j), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
 
-                                Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                Polynomial dec1 = encoder.fullDecoder(enc2);
 
                                 if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                                     poprawione++;
@@ -228,7 +229,7 @@ public class Tester {
                                                 enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                                             }
                                         }
-                                        Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                        Polynomial dec1 = encoder.fullDecoder(enc2);
 
                                         if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
                                         else niePoprawione++;
@@ -242,7 +243,7 @@ public class Tester {
                                             }
                                         }
 
-                                        Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                        Polynomial dec1 = encoder.fullDecoder(enc2);
 
                                         if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
                                         else niePoprawione++;
@@ -259,7 +260,7 @@ public class Tester {
                                                         enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                                                     }
                                                 }
-                                                Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                                Polynomial dec1 = encoder.fullDecoder(enc2);
 
                                                 if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                                                     poprawione++;
@@ -274,7 +275,7 @@ public class Tester {
                                                     }
                                                 }
 
-                                                Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                                Polynomial dec1 = encoder.fullDecoder(enc2);
 
                                                 if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                                                     poprawione++;
@@ -292,7 +293,7 @@ public class Tester {
                                                                 enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                                                             }
                                                         }
-                                                        Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                                        Polynomial dec1 = encoder.fullDecoder(enc2);
 
                                                         if (mathPolynomials.comparePol(dec1, enc1) == 0) {
                                                             poprawione++;
@@ -307,7 +308,7 @@ public class Tester {
                                                             }
                                                         }
 
-                                                        Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                                        Polynomial dec1 = encoder.fullDecoder(enc2);
 
                                                         if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
                                                         else niePoprawione++;
@@ -321,7 +322,7 @@ public class Tester {
                                                                     enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                                                                 }
                                                             }
-                                                            Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                                            Polynomial dec1 = encoder.fullDecoder(enc2);
 
                                                             if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
                                                             else niePoprawione++;
