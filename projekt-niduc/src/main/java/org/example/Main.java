@@ -56,6 +56,23 @@ public class Main {
 //        decP.show_polynomial();
 //        System.out.println();
 
+
+        /* test dekodera pełnego
+        Polynomial po = new Polynomial(generator.polynomial_generator());
+        System.out.println("Kodowany wielomian: ");
+        po.show_polynomial();
+        Polynomial encP = encoder.encode(po);
+        System.out.println("Zakodowany wielomian: ");
+        encP.show_polynomial();
+        encP = mathPolynomials.addPolynomials(encP,
+                new Polynomial(
+                        new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1"}, "decimal"));
+        System.out.println("Zakłamany wielomian: ");
+        encP.show_polynomial();
+        encoder.fullDecoder(encP);
+        System.out.println();
+         */
+
     }
 
 

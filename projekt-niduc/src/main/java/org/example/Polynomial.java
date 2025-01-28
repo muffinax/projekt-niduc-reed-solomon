@@ -78,6 +78,17 @@ public class Polynomial {
             polynomial[0] = last;
         }
     }
+
+    //wielkość wielomianu
+    public int getTrueLength(){
+        int trueLength = 0;
+        for(int i = 0; i < this.getPolynomial().length; i++){
+            if(!this.getPolynomialSignal(i).getValueD().equals("0")){
+                trueLength = i + 1;
+            }
+        }
+        return trueLength;
+    }
     Signal[] getPolynomial(){return polynomial;}
     Signal getPolynomialSignal(int i){return polynomial[i];}    //i to wartość potęgi x
 }
