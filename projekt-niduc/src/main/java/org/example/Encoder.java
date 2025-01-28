@@ -97,19 +97,12 @@ public class Encoder {
         final int t = 6;
         int n = cx.getTrueLength();
         Signal[] syndromes = new Signal[2 * t];
-        String pom = "32";
-        String pom2 = "A";
 
         for(int i = 0; i < 2 * t; i++){
             Signal sum = new Signal("0", "decimal");
             for(int j = 0; j < n; j++){
-                if((i * j) % 31 > 9){
-                    pom = String.valueOf((i * j) % 31);
-                }
-                else if((i * j) % 31 <= 9){
-                    pom = "0" + String.valueOf((i * j) % 31);
-                }
-                Signal alphaPower = new Signal(pom2 + pom, "element"); // α^(i * j) - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - wstawić element pierwotny A^(i*j) mod 31
+                int pom = (i * j) % 31;
+                Signal alphaPower = new Signal("A" + String.format("%02d", pom), "element"); // α^(i * j)
                 Signal term = mathPolynomials.multiplication(cx.getPolynomialSignal(j), alphaPower); // r_j * α^(i * j)
                 sum = mathPolynomials.addition(sum, term);
             }
@@ -129,16 +122,17 @@ public class Encoder {
 
         for(int i = 0; i < sx.getPolynomial().length; i++){
             delta = calculateDiscrepancy(lambda, sx.getPolynomial(), i); // Delta(i) = s(i) - lambda(i)
-            if(!delta.getValueE().equals("A32")){ // Jeśli delta != 0
+            if(!delta.getValueE().equals("A32")){
                 Polynomial t = lambda;
                 Polynomial deltaB = mathPolynomials.mulPolynomials(b, new Polynomial(new String[] {delta.getValueE()}, "element"));
+                deltaB.shiftPolynomial("L");
                 lambda = mathPolynomials.addPolynomials(lambda, deltaB); // Lambda = Lambda + Delta * B
                 if(2 * l <= i){
                     l = i + 1 - l; // Aktualizacja stopnia Lambda
                     b = mathPolynomials.mulPolynomials(t, new Polynomial(new String[] {delta.getValueE()}, "element"));
                 }
             }
-            b.shiftPolynomial("L"); // Przesunięcie B w lewo
+            b.shiftPolynomial("L");
         }
         return lambda;
     }
@@ -158,6 +152,27 @@ public class Encoder {
         }
         return new Polynomial(errorPositions);
     }
+    /*  druga wersja                   kom może przydać się komenda inverse to odwracania sygnałów
+    private Polynomial evaluateErrors(Polynomial lambda, int length){ //lenght = 31
+        MathPolynomials mathPolynomials = new MathPolynomials();
+        Signal[] errorPositions = new Signal[length];
+
+        for(int i = 0; i < length; i++){
+            int inverseIndex = (31 - i) % 31;
+            Signal alphaInverse = new Signal("A" + String.format("%02d", inverseIndex), "element"); //α^(-i)
+
+            // Oblicz lambda(α^(-i))          lambda(xi)        równe 1 lub 0
+
+            if(evaluation.getValueE().equals("A32")){
+                errorPositions[i] = new Signal("1", "decimal"); // Pozycja błędu
+            } else{
+                errorPositions[i] = new Signal("0", "decimal"); // Brak błędu
+            }
+    }
+
+    return new Polynomial(errorPositions);
+    }
+    */
 
     // Korekcja błędów
     private Polynomial correctErrors(Polynomial cx, Polynomial errorLocator){
