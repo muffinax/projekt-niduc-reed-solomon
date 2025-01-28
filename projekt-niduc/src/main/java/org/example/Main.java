@@ -24,9 +24,10 @@ public class Main {
         randomP.show_polynomial();
 //        encoder.fullDecoder(randomPoly());
 
-//        tester.testLosowy(randomP,800);
-//        tester.testWiazka(randomP);
+        tester.testLosowy(randomP,800);
+        tester.testWiazka(randomP);
 
+        fullTester.testLosowy(randomP,800);
         fullTester.testWiazka(randomP);
 
 

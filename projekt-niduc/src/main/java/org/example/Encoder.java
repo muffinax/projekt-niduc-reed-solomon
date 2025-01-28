@@ -66,8 +66,8 @@ public class Encoder {
 
         // Krok 1: Oblicz syndrom s(x)
         Polynomial sx = calculateSyndrome(cx);
-        System.out.println("Syndrom: ");
-        sx.show_polynomial();
+        //System.out.println("Syndrom: ");
+        //sx.show_polynomial();
 
         // Jeśli syndrom jest zerowy, brak błędów
         if(sx.hammingWeight() == 0){
@@ -76,18 +76,18 @@ public class Encoder {
 
         // Krok 2: Algorytm Berlekampa-Masseya (wyznaczanie wielomianu Lambda)
         Polynomial lambda = berlekampMassey(sx);
-        System.out.println("Wielomian Lambda (lokalizujący błędy): ");
-        lambda.show_polynomial();
+        //System.out.println("Wielomian Lambda (lokalizujący błędy): ");
+        //lambda.show_polynomial();
 
         // Krok 3: Wyznaczanie błędów za pomocą Lambda do wyrzucenia - służy tylko do wyświetlania
         Polynomial errorLocator = evaluateErrors(lambda, cx.getTrueLength());
-        System.out.println("Błędy (pozycje): ");
-        errorLocator.show_polynomial();
+        //System.out.println("Błędy (pozycje): ");
+        //errorLocator.show_polynomial();
 
         // Krok 4: Korekcja błędów
         Polynomial corrected = correctErrors(cx, errorLocator);
-        System.out.println("Odkodowany wielomian: ");
-        corrected.show_polynomial();
+        //System.out.println("Odkodowany wielomian: ");
+        //corrected.show_polynomial();
 
         return corrected;
     }
@@ -98,7 +98,7 @@ public class Encoder {
         int n = cx.getTrueLength();
         Signal[] syndromes = new Signal[2 * t];
 
-        for(int i = 0; i < 2 * t; i++){
+        for(int i = 1; i <= 2 * t; i++){
             Signal sum = new Signal("0", "decimal");
             for(int j = 0; j < n; j++){
                 int pom = (i * j) % 31;
@@ -106,7 +106,7 @@ public class Encoder {
                 Signal term = mathPolynomials.multiplication(cx.getPolynomialSignal(j), alphaPower); // r_j * α^(i * j)
                 sum = mathPolynomials.addition(sum, term);
             }
-            syndromes[i] = sum;
+            syndromes[i-1] = sum;
         }
 
         return new Polynomial(syndromes);
@@ -120,7 +120,7 @@ public class Encoder {
         int l = 0; // Początkowy stopień lambda
         Signal delta = new Signal("A00", "element"); // Delta = 1
 
-        for(int i = 0; i < sx.getPolynomial().length; i++){
+        for(int i = 0; i < sx.getTrueLength(); i++){
             delta = calculateDiscrepancy(lambda, sx.getPolynomial(), i); // Delta(i) = s(i) - lambda(i)
             if(!delta.getValueE().equals("A32")){
                 Polynomial t = lambda;
