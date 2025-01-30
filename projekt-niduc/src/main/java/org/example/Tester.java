@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -125,6 +126,7 @@ public class Tester {
 
 
     public void testWiazka(Polynomial poly1) {
+        Random random = new Random();
         System.out.println();
         System.out.println("Testy grupowe dla dekodera prostego:");
 
@@ -135,10 +137,10 @@ public class Tester {
         Polynomial enc1 = encoder.encode(poly1);
 
         //wprowadzanie bledow
-        Random random = new Random();
-//            HashSet<Integer> bityBledow = new HashSet<>();
-//            HashSet<Integer> uniqueNumbers = new HashSet<>();
-        for (int i = 1; i <= 12; i++) {
+
+        testLosowy1(poly1);  //test wiązki dla 1 błędu jest taki sam jak test losowy dla 1 błędu
+
+        for (int i = 2; i <= 12; i++) {
 
             int poprawione = 0;
             int niePoprawione = 0;
@@ -149,147 +151,182 @@ public class Tester {
             else g = i+1;
 
             if (i == 12) {
-                Polynomial enc2 = new Polynomial(encoder.encode(poly1));
-                for (int x = 0; x < 12; x++) {
-                    int r = random.nextInt(31) + 1;
-                    enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                for(int h=0;h<19;h++){
+                    Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                    for (int x = h; x < 12+h; x++) {
+                        int r = random.nextInt(31) + 1;
+                        enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                    }
+
+                    Polynomial dec1 = encoder.simpleDecoder(enc2);
+
+                    if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
+                    else niePoprawione++;
                 }
-
-                Polynomial dec1 = encoder.simpleDecoder(enc2);
-
-                if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
-                else niePoprawione++;
-
-            } else {
-
+            }
+            else {
                 for (int p = 0; p < g; p++) {
                     if (i == 11) {
-                        Polynomial enc2 = new Polynomial(encoder.encode(poly1));
-                        for (int x = 0; x < 12; x++) {
-                            if (x != p) {
-                                int r = random.nextInt(31) + 1;
-                                enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                        for(int y=0;y<19;y++){
+                            Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                            for (int x = 0; x < 12; x++) {
+                                if (x != p) {
+                                    int r = random.nextInt(31) + 1;
+                                    enc2.getPolynomialSignal(x+y).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x+y), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                }
                             }
+
+                            Polynomial dec1 = encoder.simpleDecoder(enc2);
+
+                            if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
+                            else niePoprawione++;
+
                         }
-
-                        Polynomial dec1 = encoder.simpleDecoder(enc2);
-
-                        if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
-                        else niePoprawione++;
-
-                    } else if (i == 1) {
-                        Polynomial enc2 = new Polynomial(encoder.encode(poly1));
-                        int r = random.nextInt(31) + 1;
-                        enc2.getPolynomialSignal(p).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(p), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
-
-                        Polynomial dec1 = encoder.simpleDecoder(enc2);
-
-                        if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
-                        else niePoprawione++;
 
                     } else {
                         for (int j = p + 1; j < g + 1; j++) {
                             if (i == 10) {
-                                Polynomial enc2 = new Polynomial(encoder.encode(poly1));
-                                for (int x = 0; x < 12; x++) {
-                                    if (x != p || x != j) {
-                                        int r = random.nextInt(31) + 1;
-                                        enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                for(int y=0;y<19;y++){
+                                    Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                                    for (int x = 0; x < 12; x++) {
+                                        if (x != p || x != j) {
+                                            int r = random.nextInt(31) + 1;
+                                            enc2.getPolynomialSignal(x+y).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x+y), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                        }
                                     }
-                                }
-                                Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                    Polynomial dec1 = encoder.simpleDecoder(enc2);
 
-                                if (mathPolynomials.comparePol(dec1, enc1) == 0) {
-                                    poprawione++;
-                                } else niePoprawione++;
+                                    if (mathPolynomials.comparePol(dec1, enc1) == 0) {
+                                        poprawione++;
+                                    } else niePoprawione++;
+                                }
+
 
                             } else if (i == 2) {
-                                Polynomial enc2 = new Polynomial(encoder.encode(poly1));
-                                int r = random.nextInt(31) + 1;
-                                enc2.getPolynomialSignal(p).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(p), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
-                                r = random.nextInt(31) + 1;
-                                enc2.getPolynomialSignal(j).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(j), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                for(int y=0;y<19;y++){
+                                    Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                                    for (int x = 0; x < 12; x++) {
+                                        if (x == p || x == j) {
+                                            int r = random.nextInt(31) + 1;
+                                            enc2.getPolynomialSignal(x+y).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x+y), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                        }
+                                    }
+                                    Polynomial dec1 = encoder.simpleDecoder(enc2);
 
-                                Polynomial dec1 = encoder.simpleDecoder(enc2);
-
-                                if (mathPolynomials.comparePol(dec1, enc1) == 0) {
-                                    poprawione++;
-                                } else niePoprawione++;
-
+                                    if (mathPolynomials.comparePol(dec1, enc1) == 0) {
+                                        poprawione++;
+                                    } else niePoprawione++;
+                                }
                             } else {
 
                                 for (int k = j + 1; k < g + 2; k++) {
 
                                     if (i == 9) {
-                                        Polynomial enc2 = new Polynomial(encoder.encode(poly1));
-                                        for (int x = 0; x < 12; x++) {
-                                            if (x != p || x != j || x != k) {
-                                                int r = random.nextInt(31) + 1;
-                                                enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                        ArrayList<Integer> s=new ArrayList<>();
+                                        while (s.size()<4){
+                                            int s1=random.nextInt(19);
+                                            if(!s.contains(s1)){
+                                                s.add(random.nextInt(19));
                                             }
                                         }
-                                        Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                        for (Integer integer : s) {
+                                            Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                                            for (int x = 0; x < 12; x++) {
+                                                if (x != p || x != j || x != k) {
+                                                    int r = random.nextInt(31) + 1;
+                                                    enc2.getPolynomialSignal(x + integer).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x + integer), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                                }
+                                            }
+                                            Polynomial dec1 = encoder.simpleDecoder(enc2);
 
-                                        if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
-                                        else niePoprawione++;
+                                            if (mathPolynomials.comparePol(dec1, enc1) == 0) poprawione++;
+                                            else niePoprawione++;
+                                        }
+
 
                                     } else if (i == 3) {
-                                        Polynomial enc2 = new Polynomial(encoder.encode(poly1));
-                                        for (int x = 0; x < 12; x++) {
-                                            if (x == p || x == j || x == k) {
-                                                int r = random.nextInt(31) + 1;
-                                                enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                        ArrayList<Integer> s=new ArrayList<>();
+                                        while (s.size()<4){
+                                            int s1=random.nextInt(19);
+                                            if(!s.contains(s1)){
+                                                s.add(random.nextInt(19));
                                             }
                                         }
+                                        for (Integer integer : s) {
+                                            Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                                            for (int x = 0; x < 12; x++) {
+                                                if (x == p || x == j || x == k) {
+                                                    int r = random.nextInt(31) + 1;
+                                                    enc2.getPolynomialSignal(x+integer).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x+integer), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                                }
+                                            }
 
-                                        Polynomial dec1 = encoder.simpleDecoder(enc2);
+                                            Polynomial dec1 = encoder.simpleDecoder(enc2);
 
-                                        if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
-                                        else niePoprawione++;
+                                            if (mathPolynomials.comparePol(dec1, enc1) == 0)    poprawione++;
+                                            else niePoprawione++;
+                                        }
+
 
                                     } else {
 
                                         for (int a = k + 1; a < g + 3; a++) {
 
                                             if (i == 8) {
-                                                Polynomial enc2 = new Polynomial(encoder.encode(poly1));
-                                                for (int x = 0; x < 12; x++) {
-                                                    if (x != p || x != j || x != k || x != a) {
-                                                        int r = random.nextInt(31) + 1;
-                                                        enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                                int s0=101;
+                                                for(int v=0;v<2;v++){
+                                                    int s=random.nextInt(19);
+                                                    while(s0==s){
+                                                        s=random.nextInt(19);
                                                     }
+                                                    Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                                                    for (int x = 0; x < 12; x++) {
+                                                        if (x != p || x != j || x != k || x != a) {
+                                                            int r = random.nextInt(31) + 1;
+                                                            enc2.getPolynomialSignal(x+s).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x+s), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                                        }
+                                                    }
+                                                    Polynomial dec1 = encoder.simpleDecoder(enc2);
+
+                                                    if (mathPolynomials.comparePol(dec1, enc1) == 0) {
+                                                        poprawione++;
+                                                    } else niePoprawione++;
+
+                                                    s0=s;
                                                 }
-                                                Polynomial dec1 = encoder.simpleDecoder(enc2);
-
-                                                if (mathPolynomials.comparePol(dec1, enc1) == 0) {
-                                                    poprawione++;
-                                                } else niePoprawione++;
-
                                             } else if (i == 4) {
-                                                Polynomial enc2 = new Polynomial(encoder.encode(poly1));
-                                                for (int x = 0; x < 12; x++) {
-                                                    if (x == p || x == j || x == k || x == a) {
-                                                        int r = random.nextInt(31) + 1;
-                                                        enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                                int s0=101;
+                                                for(int v=0;v<2;v++) {
+                                                    int s = random.nextInt(19);
+                                                    while (s0 == s) {
+                                                        s = random.nextInt(19);
                                                     }
+                                                    Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                                                    for (int x = 0; x < 12; x++) {
+                                                        if (x == p || x == j || x == k || x == a) {
+                                                            int r = random.nextInt(31) + 1;
+                                                            enc2.getPolynomialSignal(x+s).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x+s), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                                        }
+                                                    }
+
+                                                    Polynomial dec1 = encoder.simpleDecoder(enc2);
+
+                                                    if (mathPolynomials.comparePol(dec1, enc1) == 0) {
+                                                        poprawione++;
+                                                    } else niePoprawione++;
+                                                    s0=s;
                                                 }
-
-                                                Polynomial dec1 = encoder.simpleDecoder(enc2);
-
-                                                if (mathPolynomials.comparePol(dec1, enc1) == 0) {
-                                                    poprawione++;
-                                                } else niePoprawione++;
-
                                             } else {
 
                                                 for (int b = a + 1; b < g + 4; b++) {
 
                                                     if (i == 7) {
                                                         Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                                                        int s=random.nextInt(19);
                                                         for (int x = 0; x < 12; x++) {
                                                             if (x != p || x != j || x != k || x != a || x != b) {
                                                                 int r = random.nextInt(31) + 1;
-                                                                enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                                                enc2.getPolynomialSignal(x+s).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x+s), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                                                             }
                                                         }
                                                         Polynomial dec1 = encoder.simpleDecoder(enc2);
@@ -300,10 +337,11 @@ public class Tester {
 
                                                     } else if (i == 5) {
                                                         Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                                                        int s=random.nextInt(19);
                                                         for (int x = 0; x < 12; x++) {
                                                             if (x == p || x == j || x == k || x == a || x == b) {
                                                                 int r = random.nextInt(31) + 1;
-                                                                enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                                                enc2.getPolynomialSignal(x+s).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x+s), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                                                             }
                                                         }
 
@@ -315,10 +353,11 @@ public class Tester {
                                                     } else {
                                                         for (int c = b + 1; c < g + 5; c++) {
                                                             Polynomial enc2 = new Polynomial(encoder.encode(poly1));
+                                                            int s=random.nextInt(19);
                                                             for (int x = 0; x < 12; x++) {
                                                                 if (x == p || x == j || x == k || x == a || x == b || x==c) {
                                                                     int r = random.nextInt(31) + 1;
-                                                                    enc2.getPolynomialSignal(x).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
+                                                                    enc2.getPolynomialSignal(x+s).setValue(mathPolynomials.addition(enc2.getPolynomialSignal(x+s), new Signal(String.valueOf(r), "decimal")).getValueD(), "decimal");
                                                                 }
                                                             }
                                                             Polynomial dec1 = encoder.simpleDecoder(enc2);
