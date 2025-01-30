@@ -89,6 +89,33 @@ public class Polynomial {
         }
         return trueLength;
     }
+    // Pochodna
+    public Polynomial derivative(){
+        if(this.polynomial.length <= 1){
+            return new Polynomial(new String[]{"0"}, "decimal");
+        }
+        String[] deriv = new String[this.polynomial.length - 1];
+        for(int i = 1; i < this.polynomial.length; i++){
+            if(i % 2 == 1){
+                deriv[i - 1] = this.polynomial[i].getValueD();
+            } else{
+                deriv[i - 1] = "0";
+            }
+        }
+
+        return new Polynomial(deriv, "decimal");
+    }
+    // Wartość w punkcie x
+    public Signal evaluate(Signal x){
+        MathPolynomials math = new MathPolynomials();
+        Signal result = new Signal("0", "decimal");
+
+        for(int i = this.polynomial.length - 1; i >= 0; i--){
+            result = math.addition(math.multiplication(result, x), this.polynomial[i]);
+        }
+
+        return result;
+    }
     Signal[] getPolynomial(){return polynomial;}
     Signal getPolynomialSignal(int i){return polynomial[i];}    //i to wartość potęgi x
 }

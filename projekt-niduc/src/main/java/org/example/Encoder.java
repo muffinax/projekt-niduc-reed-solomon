@@ -66,28 +66,40 @@ public class Encoder {
 
         // Krok 1: Oblicz syndrom s(x)
         Polynomial sx = calculateSyndrome(cx);
-        //System.out.println("Syndrom: ");
-        //sx.show_polynomial();
+        System.out.println("Syndrom: ");
+        sx.show_polynomial();
 
         // Jeśli syndrom jest zerowy, brak błędów
         if(sx.hammingWeight() == 0){
-            return cx; // Brak błędów
+            return cx;
         }
 
         // Krok 2: Algorytm Berlekampa-Masseya (wyznaczanie wielomianu Lambda)
         Polynomial lambda = berlekampMassey(sx);
-        //System.out.println("Wielomian Lambda (lokalizujący błędy): ");
-        //lambda.show_polynomial();
+        System.out.println("Wielomian Lambda (lokalizujący błędy): ");
+        lambda.show_polynomial();
 
-        // Krok 3: Wyznaczanie błędów za pomocą Lambda do wyrzucenia - służy tylko do wyświetlania
-        Polynomial errorLocator = evaluateErrors(lambda, cx.getTrueLength());
-        //System.out.println("Błędy (pozycje): ");
-        //errorLocator.show_polynomial();
+        // Krok 3: Szukanie pozycji błędów
+        List<Integer> errorPositions = findErrorPositions(lambda);
 
-        // Krok 4: Korekcja błędów
-        Polynomial corrected = correctErrors(cx, errorLocator);
-        //System.out.println("Odkodowany wielomian: ");
-        //corrected.show_polynomial();
+        // Debug: Wyświetl znalezione pozycje błędów
+        System.out.print("Pozycje błędów: ");
+        if (errorPositions.isEmpty()) {
+            System.out.println("Brak znalezionych błędów.");
+        } else {
+            for (int pos : errorPositions) {
+                System.out.print("x^" + pos + " ");
+            }
+            System.out.println();
+        }
+
+        // Krok 4: Obliczanie korekcji błędów
+        Signal[] errorValues = computeErrorValues(sx, errorPositions, lambda);
+
+        // Krok 5: Korekcja błędów
+        Polynomial corrected = correctErrors(cx, errorValues);
+        System.out.println("Odkodowany wielomian: ");
+        corrected.show_polynomial();
 
         return corrected;
     }
@@ -111,95 +123,109 @@ public class Encoder {
 
         return new Polynomial(syndromes);
     }
-
     // Algorytm Berlekampa-Masseya
     private Polynomial berlekampMassey(Polynomial sx){
-        MathPolynomials mathPolynomials=new MathPolynomials();
-        Polynomial lambda = new Polynomial(new String[] {"A00"}, "element"); // Lambda(x) = 1
-        Polynomial b = new Polynomial(new String[] {"A00"}, "element"); // B(x) = 1
-        int l = 0; // Początkowy stopień lambda
-        Signal delta = new Signal("A00", "element"); // Delta = 1
-
-        for(int i = 0; i < sx.getTrueLength(); i++){
-            delta = calculateDiscrepancy(lambda, sx.getPolynomial(), i); // Delta(i) = s(i) - lambda(i)
-            if(!delta.getValueE().equals("A32")){
-                Polynomial t = lambda;
-                Polynomial deltaB = mathPolynomials.mulPolynomials(b, new Polynomial(new String[] {delta.getValueE()}, "element"));
-                deltaB.shiftPolynomial("L");
-                lambda = mathPolynomials.addPolynomials(lambda, deltaB); // Lambda = Lambda + Delta * B
-                if(2 * l <= i){
-                    l = i + 1 - l; // Aktualizacja stopnia Lambda
-                    b = mathPolynomials.mulPolynomials(t, new Polynomial(new String[] {delta.getValueE()}, "element"));
-                }
-            }
-            b.shiftPolynomial("L");
-        }
-        return lambda;
-    }
-
-    // Wyznaczanie pozycji błędów
-    private Polynomial evaluateErrors(Polynomial lambda, int length){
-        MathPolynomials mathPolynomials=new MathPolynomials();
-        Signal[] errorPositions = new Signal[length];
-        for(int i = 0; i < length; i++){
-            Signal xi = new Signal(String.valueOf(i), "decimal");
-            Polynomial evaluation = mathPolynomials.mulPolynomials(lambda, new Polynomial(new String[] {xi.getValueE()}, "element"));
-            if(evaluation.hammingWeight() == 0){
-                errorPositions[i] = new Signal("1", "decimal"); // Błąd w pozycji i
-            } else{
-                errorPositions[i] = new Signal("0", "decimal");
-            }
-        }
-        return new Polynomial(errorPositions);
-    }
-    /*  druga wersja                   kom może przydać się komenda inverse to odwracania sygnałów
-    private Polynomial evaluateErrors(Polynomial lambda, int length){ //lenght = 31
         MathPolynomials mathPolynomials = new MathPolynomials();
-        Signal[] errorPositions = new Signal[length];
+        int t = 6;
+        int N = 12;
+        Signal[] lambda = new Signal[N];
+        Arrays.fill(lambda, new Signal("0", "decimal"));
+        lambda[0] = new Signal("1", "decimal");
+        Signal[] B = new Signal[N]; // Pomocniczy wielomian B
+        Arrays.fill(B, new Signal("0", "decimal"));
+        B[0] = new Signal("1", "decimal");
+        Signal delta = new Signal("1", "decimal"); // Rozbieżność
+        int L = 0; // Liczba błędów
+        int m = 1; // Licznik kroków
 
-        for(int i = 0; i < length; i++){
-            int inverseIndex = (31 - i) % 31;
-            Signal alphaInverse = new Signal("A" + String.format("%02d", inverseIndex), "element"); //α^(-i)
-
-            // Oblicz lambda(α^(-i))          lambda(xi)        równe 1 lub 0
-
-            if(evaluation.getValueE().equals("A32")){
-                errorPositions[i] = new Signal("1", "decimal"); // Pozycja błędu
+        for(int k = 0; k < 2 * t; k++){
+            delta = calculateDiscrepancy(new Polynomial(lambda), sx.getPolynomial(), k);
+            if(!delta.getValueE().equals("A32")){
+                Signal[] lambdaTemp = Arrays.copyOf(lambda, N);
+                // Skalowanie B przez delta^(-1)
+                Signal deltaInv = inverse(delta);
+                for (int i = 0; i < N - m; i++) {
+                    if(!B[i].getValueE().equals("A32")){
+                        lambda[m + i] = mathPolynomials.addition(lambda[m + i],
+                                mathPolynomials.multiplication(deltaInv, B[i]));
+                    }
+                }
+                if(2 * L <= k){
+                    L = k + 1 - L;
+                    B = lambdaTemp;
+                    m = 1;
+                } else{
+                    m++;
+                }
             } else{
-                errorPositions[i] = new Signal("0", "decimal"); // Brak błędu
-            }
-    }
-
-    return new Polynomial(errorPositions);
-    }
-    */
-
-    // Korekcja błędów
-    private Polynomial correctErrors(Polynomial cx, Polynomial errorLocator){
-        int trueLength = cx.getTrueLength();
-        Signal[] corrected = new Signal[trueLength];
-        for(int i = 0; i < trueLength; i++){
-            if(errorLocator.getPolynomialSignal(i).getValueD().equals("1")){
-                corrected[i] = new Signal("A32", "element"); // Odwróć wartość w pozycji błędu
-            } else{
-                corrected[i] = cx.getPolynomialSignal(i); // Przepisz poprawny element
+                m++;
             }
         }
-        return new Polynomial(corrected);
-    }
 
-    // pomocnicza do B-M
+        return new Polynomial(lambda);
+    }
+    //pomocnicza do B-M
     private Signal calculateDiscrepancy(Polynomial lambda, Signal[] syndromes, int k){
         MathPolynomials mathPolynomials = new MathPolynomials();
-        Signal discrepancy = syndromes[k]; // S_k jako baza
+        Signal discrepancy = syndromes[k]; // Podstawowy syndrom S_k
+
         for(int i = 1; i < lambda.getPolynomial().length; i++){
             if(k - i >= 0){
                 Signal lambdaCoeff = lambda.getPolynomialSignal(i); // Współczynnik Λ_i
                 Signal syndromeCoeff = syndromes[k - i]; // Syndrom S_(k-i)
-                discrepancy = mathPolynomials.addition(discrepancy, mathPolynomials.multiplication(lambdaCoeff, syndromeCoeff));
+                Signal term = mathPolynomials.multiplication(lambdaCoeff, syndromeCoeff);
+                discrepancy = mathPolynomials.addition(discrepancy, term);
             }
         }
-        return discrepancy; // Wynikowa niezgodność δ
+
+        return discrepancy;
+    }
+    //metoda do odwracania sygnału
+    public Signal inverse(Signal s){
+        if(s.getValueE().equals("A32")) { // 0 w GF(2^m), brak odwrotności
+            throw new ArithmeticException("Zero nie ma elementu odwrotnego w GF(2^5)");
+        }
+        int exponent = Integer.parseInt(s.getValueE().substring(1));
+        int inverseExponent = (31 - exponent) % 31; // α^(-x) = α^(31-x)
+
+        return new Signal("A" + String.format("%02d", inverseExponent), "element");
+    }
+    //Lokalizacja błędów
+    private List<Integer> findErrorPositions(Polynomial lambda){
+        List<Integer> errorPositions = new ArrayList<>();
+        for(int i = 0; i < 31; i++){
+            Signal alphaPower = new Signal("A" + String.format("%02d", i), "element");
+            if(lambda.evaluate(alphaPower).getValueE().equals("A32")){
+                errorPositions.add(31 - i);
+            }
+        }
+
+        return errorPositions;
+    }
+    //Obliczanie wartości błędów
+    private Signal[] computeErrorValues(Polynomial sx, List<Integer> errorPositions, Polynomial lambda){
+        MathPolynomials mathPolynomials = new MathPolynomials();
+        Signal[] errorValues = new Signal[31];
+        Arrays.fill(errorValues, new Signal("0", "decimal"));
+        Polynomial lambdaDerivative = lambda.derivative();
+        for(int pos : errorPositions){
+            Signal alphaPower = new Signal("A" + String.format("%02d", pos), "element");
+            Signal errorValue = mathPolynomials.multiplication(sx.evaluate(alphaPower),
+                    inverse(lambdaDerivative.evaluate(alphaPower)));
+            errorValues[pos] = errorValue;
+        }
+
+        return errorValues;
+    }
+    //Koryguje błędy
+    private Polynomial correctErrors(Polynomial cx, Signal[] errorValues){
+        MathPolynomials mathPolynomials = new MathPolynomials();
+        Signal[] corrected = Arrays.copyOf(cx.getPolynomial(), cx.getPolynomial().length);
+        for(int i = 0; i < corrected.length; i++){
+            corrected[i] = mathPolynomials.addition(corrected[i], errorValues[i]);
+        }
+
+        return new Polynomial(corrected);
     }
 
     //rozszerza wielomian o miejsca zerowe
