@@ -24,11 +24,11 @@ public class Main {
         randomP.show_polynomial();
 //        encoder.fullDecoder(randomPoly());
 
-//        tester.testLosowy(randomP,800);
-        tester.testWiazka(randomP);
+//        tester.testLosowy(randomP,900);
+        tester.testWiazka(randomP, 900);
 //
-//        fullTester.testLosowy(randomP,800);
-//        fullTester.testWiazka(randomP);
+//        fullTester.testLosowy(randomP,900);
+//        fullTester.testWiazka(randomP, 900);
 
 
 
