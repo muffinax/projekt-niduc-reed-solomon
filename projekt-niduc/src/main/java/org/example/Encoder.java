@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Encoder {
     public Polynomial encode(Polynomial message){
         Generator generator = new Generator();
@@ -80,7 +83,7 @@ public class Encoder {
         lambda.show_polynomial();
 
         // Krok 3: Szukanie pozycji błędów
-        List<Integer> errorPositions = findErrorPositions(lambda);
+        ArrayList<Integer> errorPositions = findErrorPositions(lambda);
 
         // Debug: Wyświetl znalezione pozycje błędów
         System.out.print("Pozycje błędów: ");
@@ -191,8 +194,8 @@ public class Encoder {
         return new Signal("A" + String.format("%02d", inverseExponent), "element");
     }
     //Lokalizacja błędów
-    private List<Integer> findErrorPositions(Polynomial lambda){
-        List<Integer> errorPositions = new ArrayList<>();
+    private ArrayList<Integer> findErrorPositions(Polynomial lambda){
+        ArrayList<Integer> errorPositions = new ArrayList<>();
         for(int i = 0; i < 31; i++){
             Signal alphaPower = new Signal("A" + String.format("%02d", i), "element");
             if(lambda.evaluate(alphaPower).getValueE().equals("A32")){
@@ -203,7 +206,7 @@ public class Encoder {
         return errorPositions;
     }
     //Obliczanie wartości błędów
-    private Signal[] computeErrorValues(Polynomial sx, List<Integer> errorPositions, Polynomial lambda){
+    private Signal[] computeErrorValues(Polynomial sx, ArrayList<Integer> errorPositions, Polynomial lambda){
         MathPolynomials mathPolynomials = new MathPolynomials();
         Signal[] errorValues = new Signal[31];
         Arrays.fill(errorValues, new Signal("0", "decimal"));
